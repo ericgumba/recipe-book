@@ -18,9 +18,14 @@ handleError = (err) => {
 
 app.get('/', (req, res) => {
     res.send({hi: 'there'})
+
+
 })
 
-// app.post()
+app.get('/imreal', (req, res) => { 
+    res.send({express: "Hello from express"})
+} )
+
 
 app.get('/login', (req, res) => {
     const recipeBook = 
@@ -40,8 +45,7 @@ app.get('/login', (req, res) => {
     User.create({username: 'eric', password: 'theUsual', recipeBook}, (err, small) => {
         if(err) res.send("what happened?")
     } )
-    
-    res.send('grats')
+     
 })
 
 
