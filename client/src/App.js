@@ -25,7 +25,9 @@
       async callAPI() { 
         const data = {username: 'eric', password: 'theUsual'}
         const response = await fetch("/login", {
-          method: "POST"
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
         }) 
 
         console.log(response)

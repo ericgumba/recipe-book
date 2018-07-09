@@ -4,11 +4,13 @@ const app = express()
 const keys = require('./config/keys')
 require('./models/user')
 const User = mongoose.model('User')
-
+const bodyParser = require('body-parser')
 
 
 mongoose.connect(keys.mongoURI)
 
+const jsonParser = bodyParser.json()
+const urlEncodedParser = bodyParser.urlencoded({extended: false})
 handleError = (err) => {
 
     console.log("Wow, what happened?")
@@ -21,13 +23,15 @@ app.get('/', (req, res) => {
 })
  
 
-app.post('/login', (req, res) => { 
+app.post('/login', jsonParser, (req, res) => { 
 
     console.log(req.body)
-    
-    let userN = User.findOne({ username: "eric", password: "theUsual" }, (err, doc) => { 
 
-        console.log(doc)
+    console.log(req.body.username)
+    
+    let userN = User.findOne({ username: req.body.username, password: req.body.password }, (err, doc) => { 
+
+        // console.log(doc)
 
         res.send({username: doc.username, password: doc.passsword, recipeBook: doc.recipeBook })
     } )
