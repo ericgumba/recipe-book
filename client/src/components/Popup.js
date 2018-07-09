@@ -21,7 +21,7 @@ class Popup extends Component {
     handleSubmit(e){
         e.preventDefault()
         console.log(e.target.value)
-        this.props.closePopup() 
+        this.props.closePopup(this.state.username) 
     }
 
     render(){
@@ -47,8 +47,7 @@ class Popup extends Component {
                 />  
                 <Button size='small' variant="fab" color="primary" aria-label="add" type='submit'>
                     Submit
-                </Button>
-
+                </Button> 
             </div>
         </form>
             ) 

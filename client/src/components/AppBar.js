@@ -19,16 +19,17 @@ const styles = {
     marginLeft: -12,
     marginRight: 20,
   },
-};
-
-const wow = () => {
-    alert('hehe')
-}
+}; 
 
 function ButtonAppBar(props) {
-  const { classes } = props;
-  const { openPopup } = props;
-  console.log(openPopup)
+  const { classes, openPopup, nameDisplay } = props; 
+  let loginInfo
+  if (nameDisplay !== ''){
+      loginInfo = <Button color="inherit" onClick={() => props.openPopup()}> {nameDisplay} - LOGOUT </Button>
+  } else {
+      loginInfo = <Button color="inherit" onClick={() => props.openPopup()}> LOGIN </Button>
+  }
+
   return (
     <div className={classes.root}>
       <AppBar position="static">
@@ -38,7 +39,8 @@ function ButtonAppBar(props) {
           <Typography variant="title" color="inherit" className={classes.flex}>
             My Recipebook
           </Typography>
-          <Button color="inherit" onClick={() => props.openPopup()}>Login</Button>
+          
+          { loginInfo /* <Button color="inherit" onClick={() => props.openPopup()}>{loginInfo}  LOGOUT </Button> */}
         </Toolbar>
       </AppBar>
     </div>

@@ -1,46 +1,56 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import GenreList from './components/GenreList'
-import Header from './components/Header'
-import { request } from 'https';
-class App extends Component {
+    import React, { Component } from 'react';
+    import logo from './logo.svg';
+    import './App.css';
+    import GenreList from './components/GenreList'
+    import Header from './components/Header'
+    import { request } from 'https';
 
-  constructor(){
-    super()
-    this.state = {message: ''}
-  }
-  componentDidMount(){
-    this.callAPI().then( res => { 
-      // this.setState({message: res.express}) 
-    } ).catch( err => console.log(err))
-  }
+    const mapStateToProps = (state) => {  // takes application state as argument
+      return { articles: state.articles } // of type array of objects
+  } 
+   
 
-  async callAPI() { 
-    const response = await fetch('/imreal') 
-    console.log(response)
-    const body =  await response.json()
+    class App extends Component {
 
-    console.log(body)
+      constructor(){
+        super()
+        this.state = {message: ''}
+      }
+      componentDidMount(){
+        this.callAPI().then( res => { 
+          this.setState({message: res.username}) 
+        } ).catch( err => console.log(err))
+      }
 
-    return body
-  }
+      async callAPI() { 
+        const data = {username: 'eric', password: 'theUsual'}
+        const response = await fetch("/login", {
+          
+        }) 
 
-  render() {
+        console.log(response)
+        const body =  await response.json()
 
-    const {message} = this.state
-    return (
-      <div className="App"> 
+        console.log(body)
 
-        <Header/>
-        <GenreList/>
+        return body
+      }
 
-        {message}
+      render() {
+
+        const {message} = this.state
+        return (
+          <div className="App"> 
+
+            <Header/>
+            <GenreList/>
+
+            {message}
 
 
-      </div>
-    );
-  }
-}
+          </div>
+        );
+      }
+    }
 
-export default App;
+    export default App;

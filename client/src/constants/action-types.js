@@ -14,3 +14,6 @@ export const REMOVE_INGREDIENT = 'REMOVE_INGREDIENT'
 
 export const REMOVE_STEP = 'REMOVE_STEP'
 
+export const LOG_IN = 'LOG_IN'
+
+export const CREATE_USER = 'CREATE_USER'

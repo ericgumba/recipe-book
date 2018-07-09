@@ -4,7 +4,7 @@ import { removeGenre, removeRecipe, removeIngredient, removeStep } from '../acti
 import Button from '@material-ui/core/Button';
 
 const mapStateToProps = (state) => {  // takes application state as argument
-    return { articles: state } // of type array of objects
+    return { articles: state.articles } // of type array of objects
 } 
 
 const mapDispatchToProps = dispatch => {

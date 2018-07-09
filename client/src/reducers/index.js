@@ -10,28 +10,34 @@ import {
 } from '../constants/action-types'
 
 
-const initialState = [  
-        {              
-            genre: 'entrees', 
-            recipes: 
-            [
-                { 
-                    title: 'Oven-Roasted Garlic Chicken', 
-                    ingredients: ['Chicken', 'garlic'], 
-                    steps: ['Stick in oven', 'wait 30 minutes ']
-                }
-            ]
+
+
+const initialState =   
+        {
+            articles: [{
+                genre: 'entrees', 
+                recipes: 
+                [
+                    { 
+                        title: 'Oven-Roasted Garlic Chicken', 
+                        ingredients: ['Chicken', 'garlic'], 
+                        steps: ['Stick in oven', 'wait 30 minutes ']
+                    }
+                ]
+            }],
+            username: '' 
         }
-]  
+        
+
+        // Everything in the rootReducer function returns the object, { articles: <new article array> }
+ 
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
         case ADD_GENRE:
-            return [ ...state, { genre: action.payload, recipes: [] }  ]
+            return {articles: [ ...state.articles, { genre: action.payload, recipes: [] }  ]}
 
-        case ADD_RECIPE: // we're adding a new object, to the recipes array. 
-            // console.log(state[action.genre].recipes)
-            // const updatedArticleList = state[action.genre].recipes
-            const updatedArticleList = state.map( article => {
+        case ADD_RECIPE: 
+            const updatedArticleList = state.articles.map( article => {
                 if( article.genre === action.genre ){ 
                     return { genre: article.genre, recipes: [...article.recipes, 
                         {title: action.title, ingredients: [], steps: [] }] 
@@ -39,13 +45,11 @@ const rootReducer = (state = initialState, action) => {
                     }
                 return article
             }
-        )
-        console.log(updatedArticleList)
-        
-            return updatedArticleList
+        )  
+            return {articles: updatedArticleList}
 
         case ADD_INGREDIENT: 
-            const updatedIngredientList = state.map( (article, index) => {
+            const updatedIngredientList = state.articles.map( (article, index) => {
                 if (action.genre === index){
                     const newRecipes = article.recipes.map( recipe => {
                         if ( recipe.title === action.recipe ){ 
@@ -62,10 +66,10 @@ const rootReducer = (state = initialState, action) => {
                 }
                 return article
             } ) 
-            return updatedIngredientList
+            return {articles: updatedIngredientList}
 
         case ADD_STEP:
-            const updatedStepList = state.map( (article, index) => {
+            const updatedStepList = state.articles.map( (article, index) => {
                 if (action.genreIndex === index){
                     const newRecipes = article.recipes.map( recipe => {
                         if ( recipe.title === action.recipeTitle ){ 
@@ -80,14 +84,14 @@ const rootReducer = (state = initialState, action) => {
                 }
                 return article
             } ) 
-            return updatedStepList
+            return {articles: updatedStepList}
             
         case REMOVE_GENRE: 
-            const prunedGenres = state.filter( article => { return article.genre  !== action.payload })
-            return prunedGenres
+            const prunedGenres = state.articles.filter( article => { return article.genre  !== action.payload })
+            return {articles:prunedGenres}
 
         case REMOVE_RECIPE:  
-            const prunedRecipes = state.map( article => { 
+            const prunedRecipes = state.articles.map( article => { 
                 if (article.genre === action.genreTitle) {
                     const newRecipes = article.recipes.filter( recipe => { return recipe.title !== action.recipeTitle } ) 
  
@@ -97,10 +101,10 @@ const rootReducer = (state = initialState, action) => {
             
             } )
 
-            return prunedRecipes
+            return {articles:prunedRecipes}
 
         case REMOVE_INGREDIENT:
-            const prunedIngredients = state.map( article => { 
+            const prunedIngredients = state.articles.map( article => { 
                 if (article.genre === action.genreTitle) {
                     const newRecipes = article.recipes.map( recipe => { 
                         if (recipe.title === action.recipeTitle){
@@ -117,10 +121,10 @@ const rootReducer = (state = initialState, action) => {
             
             } )
 
-            return prunedIngredients 
+            return { articles: prunedIngredients }
 
         case REMOVE_STEP: 
-        const prunedSteps = state.map( article => { 
+        const prunedSteps = state.articles.map( article => { 
             if (article.genre === action.genreTitle) {
                 const newRecipes = article.recipes.map( recipe => { 
                     if (recipe.title === action.recipeTitle){
@@ -137,7 +141,7 @@ const rootReducer = (state = initialState, action) => {
         
         } )
 
-        return prunedSteps 
+        return {articles: prunedSteps }
 
         default:
             return state;

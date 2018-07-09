@@ -7,8 +7,12 @@ class Header extends Component {
         this.state = { isShowingPopup: true, userName: '' }
     }
 
-    setPopup(userName){
-        this.setState({isShowingPopup: !this.state.isShowingPopup,
+    setPopup(user){
+
+        console.log(user)
+        this.setState(
+            {isShowingPopup: !this.state.isShowingPopup,
+                userName: user
              })
     }        
 
@@ -16,7 +20,7 @@ class Header extends Component {
     render(){
         const {isShowingPopup, userName} = this.state
         return( <div> 
-                { isShowingPopup ? <AppBar nameDisplay={userName} openPopup={ () => this.setPopup() } /> : <Popup closePopup={() => this.setPopup()} />}
+                { isShowingPopup ? <AppBar nameDisplay={userName} openPopup={ (user) => this.setPopup(user) } /> : <Popup closePopup={(user) => this.setPopup(user)} />}
             </div>
             ) 
     }

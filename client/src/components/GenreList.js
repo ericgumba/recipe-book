@@ -187,7 +187,7 @@ class GenreList extends Component {
 
 
 const mapStateToProps = (state) => {  // takes application state as argument
-    return { articles: state } 
+    return { articles: state.articles } 
 } 
 
 export default connect(mapStateToProps)(GenreList) 

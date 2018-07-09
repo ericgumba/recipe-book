@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'; 
 
 const mapStateToProps = (state) => {  // takes application state as argument
-    return { articles: state } // of type array of objects
+    return { articles: state.articles } // of type array of objects
 } 
 
 const mapDispatchToProps = dispatch => {

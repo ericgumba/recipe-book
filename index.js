@@ -11,23 +11,35 @@ mongoose.connect(keys.mongoURI)
 
 handleError = (err) => {
 
-    alert('wow what happened?')
+    console.log("Wow, what happened?")
 
 }
 
 
 app.get('/', (req, res) => {
-    res.send({hi: 'there'})
+    res.send({hi: 'there'}) 
+})
+ 
 
+app.get('/login', (req, res) => { 
+
+    console.log(req.body)
+    
+    let userN = User.findOne({ username: "eric", password: "theUsual" }, (err, doc) => { 
+
+        console.log(doc)
+
+        res.send({username: doc.username, password: doc.passsword, recipeBook: doc.recipeBook })
+    } )
+ 
+
+} )
+
+app.post('./updatebook', (req, res) => {
 
 })
 
-app.get('/imreal', (req, res) => { 
-    res.send({express: "Hello from express"})
-} )
-
-
-app.get('/login', (req, res) => {
+app.post('./newuser', (req, res) => {
     const recipeBook = 
     [  
         {              
@@ -42,11 +54,10 @@ app.get('/login', (req, res) => {
             ]
         }
     ]  
-    User.create({username: 'eric', password: 'theUsual', recipeBook}, (err, small) => {
-        if(err) res.send("what happened?")
-    } )
-     
+    User.create({username: req.body.username, password: req.body.password, recipeBook})
 })
+
+ 
 
 
 const port = process.env.PORT || 5000;
