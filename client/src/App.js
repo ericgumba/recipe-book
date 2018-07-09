@@ -25,7 +25,7 @@
       async callAPI() { 
         const data = {username: 'eric', password: 'theUsual'}
         const response = await fetch("/login", {
-          
+          method: "POST"
         }) 
 
         console.log(response)

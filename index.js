@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 })
  
 
-app.get('/login', (req, res) => { 
+app.post('/login', (req, res) => { 
 
     console.log(req.body)
     
