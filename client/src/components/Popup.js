@@ -21,7 +21,17 @@ class Popup extends Component {
     handleSubmit(e){
         e.preventDefault()
         console.log(e.target.value)
-        this.props.closePopup(this.state.username) 
+
+
+        const {popupType} = this.props
+
+        console.log(` here is popup type ${this.props.popupType}`)
+
+        if (popupType === "login"){
+            this.props.handleLogin(this.state.username, this.state.password) 
+        } else{
+            this.props.handleRegister(this.state.username, this.state.password)
+        }
     }
 
     render(){

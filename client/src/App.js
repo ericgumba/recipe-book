@@ -16,28 +16,28 @@
         super()
         this.state = {message: ''}
       }
-      componentDidMount(){
-        this.callAPI().then( res => { 
-          this.setState({message: res.username}) 
-        } ).catch( err => console.log(err))
-      }
 
-      async callAPI() { 
-        const data = {username: 'eric', password: 'theUsual'}
-        const response = await fetch("/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(data)
-        }) 
+      // componentDidMount(){
+      //   this.callAPI().then( res => { 
+      //     this.setState({message: res.username}) 
+      //   } ).catch( err => console.log(err))
+      // }
 
-        console.log(response)
-        const body =  await response.json()
+      // async callAPI() { 
+      //   const data = {username: 'eric', password: 'theUsual'}
+      //   const response = await fetch("/login", {
+      //     method: "POST",
+      //     headers: { "Content-Type": "application/json" },
+      //     body: JSON.stringify(data)
+      //   }) 
 
-        console.log(body)
+      //   console.log(response)
+      //   const body =  await response.json()
 
-        return body
-      }
+      //   console.log(body)
 
+      //   return body
+      // } 
       render() {
 
         const {message} = this.state

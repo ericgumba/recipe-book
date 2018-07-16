@@ -5,11 +5,17 @@ import {
     ADD_STEP,
     REMOVE_GENRE,
     REMOVE_RECIPE,
+    LOG_IN,
     REMOVE_INGREDIENT,
     REMOVE_STEP
 } from '../constants/action-types'
 
 
+
+export const login = recipeBook => ({
+    type: LOG_IN,
+    payload: recipeBook
+})
 
 export const addGenre = genre => ({type: ADD_GENRE, payload: genre})
 

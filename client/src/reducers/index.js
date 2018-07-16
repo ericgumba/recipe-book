@@ -6,7 +6,8 @@ import {
     REMOVE_GENRE,
     REMOVE_RECIPE,
     REMOVE_INGREDIENT,
-    REMOVE_STEP
+    REMOVE_STEP,
+    LOG_IN
 } from '../constants/action-types'
 
 
@@ -33,6 +34,8 @@ const initialState =
  
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
+        case LOG_IN:
+            return {articles: action.payload} 
         case ADD_GENRE:
             return {articles: [ ...state.articles, { genre: action.payload, recipes: [] }  ]}
 

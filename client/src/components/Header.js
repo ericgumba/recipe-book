@@ -1,28 +1,107 @@
 import React, { Component } from 'react'
 import AppBar from './AppBar'
 import Popup from './Popup'
+import { connect } from 'react-redux' 
+
 class Header extends Component {
     constructor(){
         super()
-        this.state = { isShowingPopup: true, userName: '' }
+        this.state = { 
+            isShowingPopup: false,
+            popupType: "",
+            username: ""
+            }
     }
+ 
 
-    setPopup(user){
-
-        console.log(user)
+    setPopup(type){ 
         this.setState(
-            {isShowingPopup: !this.state.isShowingPopup,
-                userName: user
+            {
+                isShowingPopup: !this.state.isShowingPopup,
+                popupType: type
              })
     }        
 
+    async loginUser(user, pass){
+        const data = {username: user, password: pass}
+
+        const response = await fetch("/login", {
+            method: "POST",
+            headers:{ "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        })
+
+        const body = await response.json()
+
+        return body
+    }
+
+    async registerUser(newUser, newPassword){ 
+        console.log(`async register user called ${newUser} and ${newPassword}`)
+
+        const data = {username: newUser, password: newPassword}
+        const response = await fetch("/newuser", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        })
+
+        const body = await response.json()
+
+        return body
+
+        // todo: add message or warning about invalid login 
+    }
+
+    handleRegister(username, password){ // 
+        // todo uncomment once we determins this is safe
+        this.registerUser(username, password).then( res => { 
+            if(res.msg === 'failure'){
+                alert("ERROR, USERNAME OR PASSWORD ALREADY TAKEN")
+            } 
+            this.setPopup("register")
+        }).catch(err => {
+            alert('ERROR, USERNAME OR PASSWORD ALREADY TAKEN')
+            })
+
+    }
+
+    handleLogin(username, password){
+        console.log("handle login called ... ") 
+        this.loginUser(username, password).then( res => { 
+
+            if (res.msg === 'failure'){
+                alert("ERROR! USERNAME OR PASSWORD INCORRECT")
+                this.setPopup("login")  
+            } else{
+                console.log(` Here is the value of the response:  ${res.username}`)  
+                this.setPopup("login")  
+            }
+        }).catch( err => {
+                console.log(   `error this username or password doesn't exist, ${err}` )
+                alert('ERROR, LOGIN CREDENTIALS INVALID')
+                this.setPopup("login")  
+            }) 
+    }
 
     render(){
-        const {isShowingPopup, userName} = this.state
+        const {isShowingPopup, username} = this.state
         return( <div> 
-                { isShowingPopup ? <AppBar nameDisplay={userName} openPopup={ (user) => this.setPopup(user) } /> : <Popup closePopup={(user) => this.setPopup(user)} />}
+                { !isShowingPopup ? <AppBar nameDisplay={username} 
+                openPopup={(type) => this.setPopup(type)} /> : 
+                <Popup 
+                popupType={this.state.popupType} 
+                handleLogin={ (username, password) => this.handleLogin( username, password )}
+                handleRegister={ (username, password) => this.handleRegister( username, password ) }/>}
             </div>
             ) 
     }
 }
-export default Header
+
+const mapStateToProps = (state) => {
+    return { 
+        articles: state.articles,
+        userName: state.userName }
+}
+
+export default connect(mapStateToProps)(Header)
