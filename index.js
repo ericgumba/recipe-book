@@ -47,7 +47,51 @@ app.post('/login', jsonParser, (req, res) => {
 } )
 
 app.post('/updatebook', jsonParser, (req, res) => {
+    // This approach involves first retrieving the document from Mongo, then issuing an update command (triggered by calling save). However, if we don't need the document returned in our application and merely want to update a property in the database directly, Model#update is right for us:
 
+    console.log("WOW?!")
+    const newRecipe = 
+    [  
+        {              
+            genre: 'entrees', 
+            recipes: 
+            [
+                { 
+                    title: 'Oven-Roasted Garlic Chicken', 
+                    ingredients: ['Chicken', 'garlic'], 
+                    steps: ['Stick in oven', 'wait 30 minutes ']
+                },
+                {
+                    title: 'pizza',
+                    ingredients: ['cheese', 'bread'],
+                    steps: ['stick in oven', 'wait 30 minutes ']
+                }
+            ]
+        }
+    ] 
+
+    User.findOne({username: "okmanl"}, (err, user) => {
+        console.log("Updatebook was called")
+        if (err){
+            console.log("ERROR at updatebook, ")    
+            res.send({no: "dice"})
+        } else {
+
+            user.set({recipeBook: newRecipe})
+
+            user.save( (err, updatedUser) => {
+                if (err) {
+                    console.log("SAD FACE")
+                    res.send(err)
+                } else {
+                    res.send(updatedUser)
+                }
+            } )
+        }
+    })
+
+    // User.update({ username: "okmanl", password: "Gumba" }, { $set: { recipeBook: newRecipe }});
+    // res.send({hore: "SEX"})
 })
 
 

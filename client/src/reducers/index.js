@@ -35,7 +35,7 @@ const initialState =
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
         case LOG_IN:
-            return {articles: action.payload} 
+            return {articles: action.payload, username: action.username} 
         case ADD_GENRE:
             return {articles: [ ...state.articles, { genre: action.payload, recipes: [] }  ]}
 

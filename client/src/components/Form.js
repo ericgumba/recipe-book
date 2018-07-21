@@ -18,6 +18,7 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
+ 
 class Form extends Component { 
     constructor(props){
         super(props)
@@ -26,12 +27,33 @@ class Form extends Component {
         }
     }
 
+    // todo fetch function goes here. Figure out what arguments 
+    async updateBook(){ 
+
+        const data = {recipeBook: this.props.articles}
+        const response = await fetch("/updatebook", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        })  
+
+        const body = await response.json()
+        return body
+    }
+    //todo, implement fetch here. 
     addToGenres(event){
         event.preventDefault()
         console.log("adding to genres supposedly")
-        this.props.addGenre( this.state.title )
+        this.props.addGenre( this.state.title ) 
 
-        this.setState({title: ''})
+        this.updateBook().then( res => {
+            console.log("book updated")
+            this.setState({title: ''})
+
+        }).catch( err => {
+            console.log(err)
+        })
+        // this.setState({title: ''})
     }
 
     addToRecipes(event){

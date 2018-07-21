@@ -23,9 +23,9 @@
       //   } ).catch( err => console.log(err))
       // }
 
-      // async callAPI() { 
-      //   const data = {username: 'eric', password: 'theUsual'}
-      //   const response = await fetch("/login", {
+      // async callAPI() {  
+      //   const data = {username: 'okmanl', recipeBook: newRecipe}
+      //   const response = await fetch("/updatebook", {
       //     method: "POST",
       //     headers: { "Content-Type": "application/json" },
       //     body: JSON.stringify(data)

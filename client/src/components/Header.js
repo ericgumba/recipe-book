@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import AppBar from './AppBar'
 import Popup from './Popup'
 import { connect } from 'react-redux' 
+import {login} from '../actions/index'
 
 class Header extends Component {
     constructor(){
@@ -75,6 +76,8 @@ class Header extends Component {
                 this.setPopup("login")  
             } else{
                 console.log(` Here is the value of the response:  ${res.username}`)  
+
+                this.props.login(res.recipeBook)
                 this.setPopup("login")  
             }
         }).catch( err => {
@@ -104,4 +107,9 @@ const mapStateToProps = (state) => {
         userName: state.userName }
 }
 
-export default connect(mapStateToProps)(Header)
+const mapDispatchToProps = (dispatch) => { // accepts redux's dispatch function.
+    return{
+        login: recipeBook => { return dispatch(login(recipeBook)) }
+    }
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Header)

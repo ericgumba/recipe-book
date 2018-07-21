@@ -12,9 +12,10 @@ import {
 
 
 
-export const login = recipeBook => ({
+export const login = payload => ({
     type: LOG_IN,
-    payload: recipeBook
+    payload: payload.recipeBook,
+    username: payload.username
 })
 
 export const addGenre = genre => ({type: ADD_GENRE, payload: genre})
