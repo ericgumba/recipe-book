@@ -10,7 +10,7 @@ class Header extends Component {
         this.state = { 
             isShowingPopup: false,
             popupType: "",
-            username: ""
+            username: "" // NOT CURRENTLY BEING USED AT ALL.
             }
     }
  
@@ -77,7 +77,7 @@ class Header extends Component {
             } else{
                 console.log(` Here is the value of the response:  ${res.username}`)  
 
-                this.props.login(res.recipeBook)
+                this.props.login({recipeBook:res.recipeBook, username:res.username})
                 this.setPopup("login")  
             }
         }).catch( err => {

@@ -31,13 +31,20 @@ const initialState =
         
 
         // Everything in the rootReducer function returns the object, { articles: <new article array> }
+
+const newState = (state, object) => {
+    return Object.assign( {}, state, object )
+}
  
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
         case LOG_IN:
             return {articles: action.payload, username: action.username} 
-        case ADD_GENRE:
-            return {articles: [ ...state.articles, { genre: action.payload, recipes: [] }  ]}
+        case ADD_GENRE: // possibility, return {articles: blah} r
+        // or state = initialState is what causes it to revert back to... ? 
+            console.log("state of current app called in ADD_GENRE of index.js")
+            console.log(state)  
+            return newState( state , {articles: [ ...state.articles, { genre: action.payload, recipes: [] }  ]})
 
         case ADD_RECIPE: 
             const updatedArticleList = state.articles.map( article => {
@@ -49,7 +56,7 @@ const rootReducer = (state = initialState, action) => {
                 return article
             }
         )  
-            return {articles: updatedArticleList}
+            return newState(state, {articles: updatedArticleList})
 
         case ADD_INGREDIENT: 
             const updatedIngredientList = state.articles.map( (article, index) => {
@@ -69,7 +76,7 @@ const rootReducer = (state = initialState, action) => {
                 }
                 return article
             } ) 
-            return {articles: updatedIngredientList}
+            return newState(state,{articles: updatedIngredientList})
 
         case ADD_STEP:
             const updatedStepList = state.articles.map( (article, index) => {
@@ -87,11 +94,12 @@ const rootReducer = (state = initialState, action) => {
                 }
                 return article
             } ) 
-            return {articles: updatedStepList}
+
+            return newState(state, {articles: updatedStepList})
             
         case REMOVE_GENRE: 
             const prunedGenres = state.articles.filter( article => { return article.genre  !== action.payload })
-            return {articles:prunedGenres}
+            return newState(state, { articles: prunedGenres } )
 
         case REMOVE_RECIPE:  
             const prunedRecipes = state.articles.map( article => { 
@@ -104,7 +112,7 @@ const rootReducer = (state = initialState, action) => {
             
             } )
 
-            return {articles:prunedRecipes}
+            return newState( state, {articles:prunedRecipes} )
 
         case REMOVE_INGREDIENT:
             const prunedIngredients = state.articles.map( article => { 
@@ -124,27 +132,27 @@ const rootReducer = (state = initialState, action) => {
             
             } )
 
-            return { articles: prunedIngredients }
+            return newState( state, { articles: prunedIngredients } )
 
         case REMOVE_STEP: 
-        const prunedSteps = state.articles.map( article => { 
-            if (article.genre === action.genreTitle) {
-                const newRecipes = article.recipes.map( recipe => { 
-                    if (recipe.title === action.recipeTitle){
-                        const newSteps = recipe.steps.filter( step => { return step !== action.stepTitle } )
-                        
-                        return {title: recipe.title, ingredients: recipe.ingredients, steps: newSteps}
-                    }
-                    return recipe
-                } ) 
+            const prunedSteps = state.articles.map( article => { 
+                if (article.genre === action.genreTitle) {
+                    const newRecipes = article.recipes.map( recipe => { 
+                        if (recipe.title === action.recipeTitle){
+                            const newSteps = recipe.steps.filter( step => { return step !== action.stepTitle } )
+                            
+                            return {title: recipe.title, ingredients: recipe.ingredients, steps: newSteps}
+                        }
+                        return recipe
+                    } ) 
 
-                return { genre: article.genre, recipes: newRecipes }
-            }
-            return article
-        
-        } )
+                    return { genre: article.genre, recipes: newRecipes }
+                }
+                return article
+            
+            } )
 
-        return {articles: prunedSteps }
+            return newState( state, {articles: prunedSteps } )
 
         default:
             return state;

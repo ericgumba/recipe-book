@@ -6,7 +6,7 @@ import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'; 
 
 const mapStateToProps = (state) => {  // takes application state as argument
-    return { articles: state.articles } // of type array of objects
+    return { articles: state.articles, username: state.username } // of type array of objects
 } 
 
 const mapDispatchToProps = dispatch => {
@@ -23,14 +23,26 @@ class Form extends Component {
     constructor(props){
         super(props)
         this.state = {
-            title: ''
+            title: ""
+        }
+    } 
+    componentDidUpdate(){ 
+
+        if (this.state.title === ""){
+
+            this.updateBook().then( res => {
+                console.log("book updated")
+
+            }).catch( err => {
+                console.log(err)
+            }) 
         }
     }
-
-    // todo fetch function goes here. Figure out what arguments 
+    // TODO TEST UPDATEBOOK
     async updateBook(){ 
 
-        const data = {recipeBook: this.props.articles}
+        const data = {recipeBook: this.props.articles, username: this.props.username}
+        console.log(data)
         const response = await fetch("/updatebook", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -40,20 +52,13 @@ class Form extends Component {
         const body = await response.json()
         return body
     }
-    //todo, implement fetch here. 
+    //todo, implement fetch here. also, perhaps call updateBook() in component did mount function
     addToGenres(event){
         event.preventDefault()
         console.log("adding to genres supposedly")
-        this.props.addGenre( this.state.title ) 
+        this.props.addGenre( this.state.title )  
+        this.setState({title: ''})
 
-        this.updateBook().then( res => {
-            console.log("book updated")
-            this.setState({title: ''})
-
-        }).catch( err => {
-            console.log(err)
-        })
-        // this.setState({title: ''})
     }
 
     addToRecipes(event){
@@ -61,8 +66,6 @@ class Form extends Component {
         console.log('yo, whatsup', this.props.genreIndex) 
         this.props.addRecipe({genre:this.props.articles[this.props.genreIndex].genre,
             title: this.state.title})
-        
-
         this.setState({title: ''}) 
     }
 
@@ -100,13 +103,13 @@ class Form extends Component {
     }
 
     handleSubmit(event){ 
-        if(this.props.formType === 'adding-to-genres'){
-            this.addToGenres(event)
+        if( this.props.formType === 'adding-to-genres' ){
+            this.addToGenres( event )
         } else if ( this.props.formType === 'adding-to-recipes'){
-            this.addToRecipes(event)
+            this.addToRecipes( event )
         } else if ( this.props.formType === 'adding-to-ingredients' ){
-            this.addToIngredients(event)
-        } else if ( this.props.formType === 'adding-to-steps'){
+            this.addToIngredients( event )
+        } else if ( this.props.formType === 'adding-to-steps' ){
             this.addToSteps(event)
         } else {
             alert('bug')
@@ -133,8 +136,7 @@ class Form extends Component {
                 </div>
             </form>
         )
-    }
- 
+    } 
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form)
