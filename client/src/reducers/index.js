@@ -7,7 +7,8 @@ import {
     REMOVE_RECIPE,
     REMOVE_INGREDIENT,
     REMOVE_STEP,
-    LOG_IN
+    LOG_IN,
+    LOG_OUT
 } from '../constants/action-types'
 
 
@@ -26,7 +27,7 @@ const initialState =
                     }
                 ]
             }],
-            username: '' 
+            username: ""
         }
         
 
@@ -38,6 +39,8 @@ const newState = (state, object) => {
  
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
+        case LOG_OUT:
+            return newState( state, {username: ""} )
         case LOG_IN:
             return {articles: action.payload, username: action.username} 
         case ADD_GENRE: // possibility, return {articles: blah} r

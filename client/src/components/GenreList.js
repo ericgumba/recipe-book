@@ -70,8 +70,7 @@ class GenreList extends Component {
     renderRecipes(){
         console.log("rendering recipes")
         return (
-        <div>
-
+        <div> 
             <Form formType='adding-to-recipes' genreIndex={this.state.genreIndex} /> 
             <Button variant='contained' color='primary' onClick={ () => this.setGenreList()} >Back </Button>
             <Typography variant="headline" gutterBottom>

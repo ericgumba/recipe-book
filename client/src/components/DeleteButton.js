@@ -16,9 +16,10 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-class DeleteButton extends Component { 
-    deleteGenre(){
 
+class DeleteButton extends Component { 
+ 
+    deleteGenre(){ 
         console.log("test")
         this.props.removeGenre(this.props.articles[this.props.genreIndex].genre)
     }
@@ -30,8 +31,7 @@ class DeleteButton extends Component {
         }
         this.props.removeRecipe(payload)
     }
-    deleteIngredient(){
-        
+    deleteIngredient(){ 
         this.props.removeIngredient(
             {
                 genreTitle: this.props.articles[this.props.genreIndex].genre,

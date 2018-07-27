@@ -17,3 +17,5 @@ export const REMOVE_STEP = 'REMOVE_STEP'
 export const LOG_IN = 'LOG_IN'
 
 export const CREATE_USER = 'CREATE_USER'
+
+export const LOG_OUT = "LOG_OUT";

@@ -7,7 +7,8 @@ import {
     REMOVE_RECIPE,
     LOG_IN,
     REMOVE_INGREDIENT,
-    REMOVE_STEP
+    REMOVE_STEP,
+    LOG_OUT
 } from '../constants/action-types'
 
 
@@ -16,6 +17,10 @@ export const login = payload => ({
     type: LOG_IN,
     payload: payload.recipeBook,
     username: payload.username
+})
+
+export const logout = () => ({
+    type: LOG_OUT
 })
 
 export const addGenre = genre => ({type: ADD_GENRE, payload: genre})

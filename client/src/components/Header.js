@@ -2,20 +2,19 @@ import React, { Component } from 'react'
 import AppBar from './AppBar'
 import Popup from './Popup'
 import { connect } from 'react-redux' 
-import {login} from '../actions/index'
+import {login, logout} from '../actions/index'
 
 class Header extends Component {
     constructor(){
         super()
         this.state = { 
             isShowingPopup: false,
-            popupType: "",
-            username: "" // NOT CURRENTLY BEING USED AT ALL.
+            popupType: "", 
+            username: ""
             }
     }
- 
 
-    setPopup(type){ 
+    setPopup(type){  
         this.setState(
             {
                 isShowingPopup: !this.state.isShowingPopup,
@@ -67,6 +66,15 @@ class Header extends Component {
 
     }
 
+
+    handleLogout(){
+
+        this.props.logout();
+
+        window.location.reload();
+
+    }
+
     handleLogin(username, password){
         console.log("handle login called ... ") 
         this.loginUser(username, password).then( res => { 
@@ -89,9 +97,12 @@ class Header extends Component {
 
     render(){
         const {isShowingPopup, username} = this.state
+        console.log("USER NAME IS::: " + this.props.username )
         return( <div> 
-                { !isShowingPopup ? <AppBar nameDisplay={username} 
-                openPopup={(type) => this.setPopup(type)} /> : 
+                { !isShowingPopup ? <AppBar nameDisplay={this.props.username} 
+                openPopup={(type) => this.setPopup(type)} 
+                logout={ () => this.handleLogout() }
+                /> : 
                 <Popup 
                 popupType={this.state.popupType} 
                 handleLogin={ (username, password) => this.handleLogin( username, password )}
@@ -104,12 +115,13 @@ class Header extends Component {
 const mapStateToProps = (state) => {
     return { 
         articles: state.articles,
-        userName: state.userName }
+        username: state.username }
 }
 
 const mapDispatchToProps = (dispatch) => { // accepts redux's dispatch function.
     return{
-        login: recipeBook => { return dispatch(login(recipeBook)) }
+        login: recipeBook => { return dispatch(login(recipeBook)) },
+        logout: () => { return dispatch(logout()) }
     }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Header)

@@ -23,9 +23,11 @@ const styles = {
 
 function ButtonAppBar(props) {
   const { classes, openPopup, nameDisplay } = props; 
-  let loginInfo
-  if (nameDisplay !== ''){
-      loginInfo = <Button color="inherit" onClick={() => props.openPopup("")}> {nameDisplay} - LOGOUT </Button>
+  let loginInfo;
+  console.log("DISPLAY NAME IS::: " + nameDisplay )
+
+  if (nameDisplay !== ""){
+      loginInfo = <Button color="inherit" onClick={() => props.logout()}> {nameDisplay} - LOGOUT </Button>
   } else {
       loginInfo = <Button color="inherit" onClick={() => props.openPopup("login")}> LOGIN </Button>
   }

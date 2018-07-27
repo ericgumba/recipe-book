@@ -17,8 +17,34 @@ handleError = (err) => {
 }
 
 
-app.get('/', (req, res) => {
-    res.send({hi: 'there'}) 
+app.get('/identity', (req, res) => {
+    
+    const book = 
+    [  
+        {              
+            genre: 'entrees', 
+            recipes: 
+            [
+                { 
+                    title: 'Oven-Roasted Garlic Chicken', 
+                    ingredients: ['Chicken', 'garlic'], 
+                    steps: ['Stick in oven', 'wait 30 minutes ']
+                } 
+            ]
+        }
+    ] 
+
+    User.create({ username: "", password: "", recipeBook: book }, (err, doc) => {
+        if(err){
+            console.log('error found in /identity')
+            console.log(err) 
+            res.status(400)
+            res.send({msg: 'failure'})
+        } else {
+            res.send({msg: 'success'})
+        }
+    })
+
 })
  
 
@@ -49,7 +75,7 @@ app.post('/login', jsonParser, (req, res) => {
 app.post('/updatebook', jsonParser, (req, res) => {
     // This approach involves first retrieving the document from Mongo, then issuing an update command (triggered by calling save). However, if we don't need the document returned in our application and merely want to update a property in the database directly, Model#update is right for us:
 
-    console.log("WOW?!")
+    // console.log("WOW?!")
     // const newRecipe = 
     // [  
     //     {              
@@ -60,12 +86,7 @@ app.post('/updatebook', jsonParser, (req, res) => {
     //                 title: 'Oven-Roasted Garlic Chicken', 
     //                 ingredients: ['Chicken', 'garlic'], 
     //                 steps: ['Stick in oven', 'wait 30 minutes ']
-    //             },
-    //             {
-    //                 title: 'pizza',
-    //                 ingredients: ['cheese', 'bread'],
-    //                 steps: ['stick in oven', 'wait 30 minutes ']
-    //             }
+    //             } 
     //         ]
     //     }
     // ] 
@@ -91,10 +112,7 @@ app.post('/updatebook', jsonParser, (req, res) => {
                 }
             } )
         }
-    })
-
-    // User.update({ username: "okmanl", password: "Gumba" }, { $set: { recipeBook: newRecipe }});
-    // res.send({hore: "SEX"})
+    }) 
 })
 
 
