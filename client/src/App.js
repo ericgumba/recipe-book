@@ -2,6 +2,7 @@
     import logo from './logo.svg';
     import './App.css';
     import GenreList from './components/GenreList'
+    import LoginModal from './components/LoginModal'
     import Header from './components/Header'
     import { request } from 'https';
 
@@ -45,7 +46,7 @@
           <div className="App"> 
 
             <Header/>
-            <GenreList/>
+            <GenreList/> 
 
             {message}
 

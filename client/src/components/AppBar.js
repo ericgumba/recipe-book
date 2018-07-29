@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import LoginModal from "./LoginModal";
 
 const styles = {
   root: {
@@ -29,7 +30,7 @@ function ButtonAppBar(props) {
   if (nameDisplay !== ""){
       loginInfo = <Button color="inherit" onClick={() => props.logout()}> {nameDisplay} - LOGOUT </Button>
   } else {
-      loginInfo = <Button color="inherit" onClick={() => props.openPopup("login")}> LOGIN </Button>
+      loginInfo = <LoginModal />
   }
 
   return (

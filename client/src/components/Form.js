@@ -26,10 +26,8 @@ class Form extends Component {
             title: ""
         }
     } 
-    componentDidUpdate(){ 
-
-        if (this.state.title === ""){
-
+    componentDidUpdate(){  
+        if (this.state.title === ""){ 
             this.updateBook().then( res => {
                 console.log("book updated")
 
@@ -103,16 +101,20 @@ class Form extends Component {
     }
 
     handleSubmit(event){ 
-        if( this.props.formType === 'adding-to-genres' ){
-            this.addToGenres( event )
-        } else if ( this.props.formType === 'adding-to-recipes'){
-            this.addToRecipes( event )
-        } else if ( this.props.formType === 'adding-to-ingredients' ){
-            this.addToIngredients( event )
-        } else if ( this.props.formType === 'adding-to-steps' ){
-            this.addToSteps(event)
+        if (this.props.username !== ""){
+            if( this.props.formType === 'adding-to-genres' ){
+                this.addToGenres( event );
+            } else if ( this.props.formType === 'adding-to-recipes'){
+                this.addToRecipes( event );
+            } else if ( this.props.formType === 'adding-to-ingredients' ){
+                this.addToIngredients( event );
+            } else if ( this.props.formType === 'adding-to-steps' ){
+                this.addToSteps(event);
+            } else {
+                alert('bug');
+            }
         } else {
-            alert('bug')
+            alert("You must be logged in to add new items");
         }
     } 
 
