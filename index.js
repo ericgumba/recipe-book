@@ -151,7 +151,7 @@ app.post('/newuser', jsonParser, (req, res) => {
             res.status(400)
             res.send({msg: 'failure'})
         } else {
-            res.send({msg: 'success'})
+            res.send({username: req.body.username, recipeBook})
         }
     })
  

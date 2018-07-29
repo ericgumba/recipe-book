@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import LoginModal from "./LoginModal";
+import RegisterModal from "./RegisterModal";
 
 const styles = {
   root: {
@@ -41,8 +42,8 @@ function ButtonAppBar(props) {
           </IconButton>
           <Typography variant="title" color="inherit" className={classes.flex}>
             My Recipebook
-          </Typography>
-          <Button color="inherit" onClick={() => props.openPopup("register") }> Register </Button>
+          </Typography> 
+          <RegisterModal/>
           { loginInfo /* <Button color="inherit" onClick={() => props.openPopup()}>{loginInfo}  LOGOUT </Button> */}
         </Toolbar>
       </AppBar>
