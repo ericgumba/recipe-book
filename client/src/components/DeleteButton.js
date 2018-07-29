@@ -4,7 +4,7 @@ import { removeGenre, removeRecipe, removeIngredient, removeStep } from '../acti
 import Button from '@material-ui/core/Button';
 
 const mapStateToProps = (state) => {  // takes application state as argument
-    return { articles: state.articles } // of type array of objects
+    return { articles: state.articles, username: state.username } // of type array of objects
 } 
 
 const mapDispatchToProps = dispatch => {
@@ -51,23 +51,27 @@ class DeleteButton extends Component {
     }
 
     handleDelete(event){
-        switch(this.props.deleteType){
-            case 'delete-genre':
-                this.deleteGenre()
-                break
-            case 'delete-recipe':
-                this.deleteRecipe()
-                break
-            case 'delete-ingredient':
-                this.deleteIngredient()
-                break
-            case 'delete-step':
-                this.deleteStep()
-                break
-            default:
-                alert('error')
-                break
 
+        if(this.props.username !== ""){
+            switch(this.props.deleteType){
+                case 'delete-genre':
+                    this.deleteGenre()
+                    break
+                case 'delete-recipe':
+                    this.deleteRecipe()
+                    break
+                case 'delete-ingredient':
+                    this.deleteIngredient()
+                    break
+                case 'delete-step':
+                    this.deleteStep()
+                    break
+                default:
+                    alert('error')
+                    break 
+            }
+        } else{
+            alert("You must be logged in to delete a item");
         } 
     }
     render(){
