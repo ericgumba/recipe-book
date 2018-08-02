@@ -64,13 +64,12 @@ class Header extends Component {
 
     render(){ 
         console.log("USER NAME IS::: " + this.props.username )
-        return( <div>   
+        return( <div>       
                 <AppBar nameDisplay={this.props.username} 
                 openPopup={(type) => this.setPopup(type)} 
                 logout={ () => this.handleLogout() }
                 handleLogin={ (username, password) => this.handleLogin( username, password )}
-                handleRegister={ (username, password) => this.handleRegister( username, password ) }/>
-                /> 
+                handleRegister={ (username, password) => this.handleRegister( username, password ) }/> 
             </div>
             ) 
     }

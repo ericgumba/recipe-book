@@ -31,7 +31,7 @@ function ButtonAppBar(props) {
   if (nameDisplay !== ""){
       loginInfo = <Button color="inherit" onClick={() => props.logout()}> {nameDisplay} - LOGOUT </Button>
   } else {
-      loginInfo = <LoginModal />
+      loginInfo =  <LoginModal /> 
   }
 
   return (
@@ -42,8 +42,8 @@ function ButtonAppBar(props) {
           </IconButton>
           <Typography variant="title" color="inherit" className={classes.flex}>
             My Recipebook
-          </Typography> 
-          <RegisterModal/>
+          </Typography>   
+          {nameDisplay === "" ? <RegisterModal/> : null}
           { loginInfo /* <Button color="inherit" onClick={() => props.openPopup()}>{loginInfo}  LOGOUT </Button> */}
         </Toolbar>
       </AppBar>

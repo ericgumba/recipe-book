@@ -1,11 +1,10 @@
-    import React, { Component } from 'react';
-    import logo from './logo.svg';
-    import './App.css';
-    import GenreList from './components/GenreList'
-    import LoginModal from './components/LoginModal'
-    import Header from './components/Header'
-    import { request } from 'https';
-
+    import React, { Component } from "react"; 
+    import "./App.css";
+    import GenreList from "./containers/GenreList";
+    import LoginModal from "./components/LoginModal";
+    import Header from "./components/Header";
+    // import GenreButtons from "./components/GenreButtons";
+    import { request } from 'https'; 
     const mapStateToProps = (state) => {  // takes application state as argument
       return { articles: state.articles } // of type array of objects
   } 
@@ -46,6 +45,7 @@
           <div className="App"> 
 
             <Header/>
+ 
             <GenreList/> 
 
             {message}
