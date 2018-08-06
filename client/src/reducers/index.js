@@ -43,8 +43,7 @@ const rootReducer = (state = initialState, action) => {
             return newState( state, {username: ""} )
         case LOG_IN:
             return {articles: action.payload, username: action.username} 
-        case ADD_GENRE: // possibility, return {articles: blah} r
-        // or state = initialState is what causes it to revert back to... ? 
+        case ADD_GENRE: 
             console.log("state of current app called in ADD_GENRE of index.js")
             console.log(state)  
             return newState( state , {articles: [ ...state.articles, { genre: action.payload, recipes: [] }  ]})
@@ -90,12 +89,12 @@ const rootReducer = (state = initialState, action) => {
                             ingredients: [...recipe.ingredients],
                         steps: [...recipe.steps, action.stepTitle ]}
                         }
-                        return recipe
+                        return recipe;
                     } )
 
                     return {genre: article.genre, recipes: newRecipes}
                 }
-                return article
+                return article;
             } ) 
 
             return newState(state, {articles: updatedStepList})
@@ -155,7 +154,7 @@ const rootReducer = (state = initialState, action) => {
             
             } )
 
-            return newState( state, {articles: prunedSteps } )
+            return newState( state, {articles: prunedSteps } );
 
         default:
             return state;

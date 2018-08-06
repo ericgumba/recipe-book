@@ -96,7 +96,9 @@ const images = [
 ];
 
 function GenreButtons(props) {
-  const { classes, genres } = props;
+  const { classes, genres, showRecipes } = props;
+
+  console.log(props)
 
   return (
     <div className={classes.root}>
@@ -114,7 +116,7 @@ function GenreButtons(props) {
             className={classes.imageSrc}
             style={{
               backgroundImage: `url(${image.url})`,
-            }}
+            }}          
           />
           <span className={classes.imageBackdrop} />
           <span className={classes.imageButton}>
@@ -131,12 +133,13 @@ function GenreButtons(props) {
         </ButtonBase>
       ))} */}
 
-      {genres.map(genre => (
+      {genres.map((genre, index)=> (
                   <ButtonBase
                   focusRipple
                   key={genre}
                   className={classes.image}
                   focusVisibleClassName={classes.focusVisible}
+                  onClick={() => showRecipes(index)}
                   style={{
                     width: "40%",
                   }}
@@ -145,7 +148,7 @@ function GenreButtons(props) {
               />
               <span className={classes.imageBackdrop} />
               <span className={classes.imageButton}>
-                <Typography
+                <Typography 
                   component="span"
                   variant="subheading"
                   color="inherit"

@@ -167,7 +167,7 @@ class GenreList extends Component {
             )
         } else if (this.state.isShowingRecipes){
             return ( 
-                    this.renderRecipes()
+                this.renderRecipes()
             )
         } else {
             return this.renderRecipe()
