@@ -27,9 +27,11 @@ const initialState =
                     }
                 ]
             }],
-            username: ""
-        }
-        
+            username: "",
+            showGenres: true,
+            genreIndex: 0
+        };
+         
 
         // Everything in the rootReducer function returns the object, { articles: <new article array> }
 
@@ -39,6 +41,10 @@ const newState = (state, object) => {
  
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
+        case "SHOW_GENRE":
+            return newState( state, {showGenres: true} );
+        case "SHOW_RECIPE":
+            return newState( state, {showGenres: false, genreIndex: action.payload} );
         case LOG_OUT:
             return newState( state, {username: ""} )
         case LOG_IN:

@@ -141,7 +141,7 @@ function GenreButtons(props) {
                   focusVisibleClassName={classes.focusVisible}
                   onClick={() => showRecipes(index)}
                   style={{
-                    width: "40%",
+                    width: "33%",
                   }}
                 >          <span
                 className={classes.imageSrc} 

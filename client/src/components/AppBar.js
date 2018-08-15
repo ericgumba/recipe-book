@@ -40,11 +40,11 @@ function ButtonAppBar(props) {
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit" aria-label="Menu"> 
           </IconButton>
-          <Typography variant="title" color="inherit" className={classes.flex}>
+          <Typography variant="title" color="inherit" style={ {cursor: "pointer"  } } className={classes.flex} onClick={() => props.handleBackButton()}>
             My Recipebook
           </Typography>   
-          {nameDisplay === "" ? <RegisterModal/> : null}
-          { loginInfo /* <Button color="inherit" onClick={() => props.openPopup()}>{loginInfo}  LOGOUT </Button> */}
+          {nameDisplay === "" ? <RegisterModal/> : null }
+          { loginInfo }
         </Toolbar>
       </AppBar>
     </div>

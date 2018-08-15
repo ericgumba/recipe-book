@@ -17,6 +17,9 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import RecipeCardMenu from "./RecipeCardMenu";
+import { EditField } from './EditField';
+import Button from '@material-ui/core/Button';
+import MultiLineEditField  from './MultiLineEditField';
 const styles = theme => ({
   card: {
     maxWidth: 400,
@@ -48,7 +51,7 @@ const styles = theme => ({
 });
 
 class RecipeReviewCard extends React.Component {
-  state = { expanded: false };
+  state = { expanded: true };
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
@@ -60,17 +63,8 @@ class RecipeReviewCard extends React.Component {
     return (
       <div>
         <Card className={classes.card}>
-          <CardHeader
-            avatar={
-              <Avatar aria-label="Recipe" className={classes.avatar}>
-                R
-              </Avatar>
-            }
-            action={
-              <RecipeCardMenu handleDelete={() => this.props.handleDelete() } handleEditButton={() => this.props.handleEditButton()}/>
-            }
-            title={recipe.title}
-            // subheader="September 14, 2016"
+          <CardHeader  
+            title={"editing"} 
           />
           <CardMedia
             className={classes.media}
@@ -80,30 +74,12 @@ class RecipeReviewCard extends React.Component {
           <CardContent>
             <ul>
             {recipe.ingredients.map( ingredient => {return( 
-              <li>{ingredient} </li>
+              <EditField ingredient={ingredient}/>
             ) } ) }
             </ul>
             <Typography component="p"> 
             </Typography>
-          </CardContent>
-          <CardActions className={classes.actions} disableActionSpacing>
-            <IconButton aria-label="Add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="Share">
-              <ShareIcon />
-            </IconButton>
-            <IconButton
-              className={classnames(classes.expand, {
-                [classes.expandOpen]: this.state.expanded,
-              })}
-              onClick={this.handleExpandClick}
-              aria-expanded={this.state.expanded}
-              aria-label="Show more"
-            >
-              <ExpandMoreIcon />
-            </IconButton>
-          </CardActions>
+          </CardContent> 
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
             <CardContent>
               <Typography paragraph variant="body2">
@@ -113,12 +89,15 @@ class RecipeReviewCard extends React.Component {
               {recipe.steps.map( step => { 
                 return(
                   <Typography paragraph>
-                    {step}
+                    <MultiLineEditField step={step} />
                   </Typography>
 
                 );
                } )} 
+
             </CardContent>
+
+              <Button variant="text" backgroundColor="red" onClick={ () => this.props.handleEditButton() }>Done</Button>
           </Collapse>
         </Card>
       </div>

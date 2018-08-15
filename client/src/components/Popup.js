@@ -23,9 +23,9 @@ class Popup extends Component {
             body: JSON.stringify(data)
         })
 
-        const body = await response.json()
+        const body = await response.json();
 
-        return body
+        return body;
     }
 
     handleLogin(){
@@ -35,26 +35,26 @@ class Popup extends Component {
             if (res.msg === 'failure'){
                 alert("ERROR! USERNAME OR PASSWORD INCORRECT") 
             } else{
-                console.log(` Here is the value of the response:  ${res.username}`)  
+                console.log(` Here is the value of the response:  ${res.username}`);
 
-                this.props.login({recipeBook:res.recipeBook, username:res.username}) 
+                this.props.login({recipeBook:res.recipeBook, username:res.username});
             }
         }).catch( err => { 
-                alert('ERROR, LOGIN CREDENTIALS INVALID') 
+                alert('ERROR, LOGIN CREDENTIALS INVALID'); 
             }) 
     }  
     async registerUser(){   
 
-        const data = {username: this.state.username, password: this.state.password}
+        const data = {username: this.state.username, password: this.state.password};
         const response = await fetch("/newuser", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
-        })
+        });
 
-        const body = await response.json()
+        const body = await response.json();
 
-        return body 
+        return body; 
  
     }
 

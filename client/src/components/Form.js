@@ -21,10 +21,10 @@ const mapDispatchToProps = dispatch => {
  
 class Form extends Component { 
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             title: ""
-        }
+        };
     } 
     componentDidUpdate(){  
         if (this.state.title === ""){ 
@@ -33,50 +33,49 @@ class Form extends Component {
 
             }).catch( err => {
                 console.log(err)
-            }) 
+            }); 
         }
-    }
-    // TODO TEST UPDATEBOOK
+    } 
     async updateBook(){ 
 
-        const data = {recipeBook: this.props.articles, username: this.props.username}
-        console.log(data)
+        const data = {recipeBook: this.props.articles, username: this.props.username};
+        console.log(data);
         const response = await fetch("/updatebook", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
-        })  
+        });
 
-        const body = await response.json()
-        return body
+        const body = await response.json();
+        return body;
     }
     //todo, implement fetch here. also, perhaps call updateBook() in component did mount function
     addToGenres(event){
-        event.preventDefault()
-        console.log("adding to genres supposedly")
-        this.props.addGenre( this.state.title )  
-        this.setState({title: ''})
+        event.preventDefault();
+        console.log("adding to genres supposedly");
+        this.props.addGenre( this.state.title );
+        this.setState({title: ''});
 
     }
 
     addToRecipes(event){
-        event.preventDefault()
-        console.log('yo, whatsup', this.props.genreIndex) 
+        event.preventDefault();
+        console.log('yo, whatsup', this.props.genreIndex);
         this.props.addRecipe({genre:this.props.articles[this.props.genreIndex].genre,
-            title: this.state.title})
-        this.setState({title: ''}) 
+            title: this.state.title});
+        this.setState({title: ''});
     }
 
     addToIngredients(event){
 
-        event.preventDefault() 
+        event.preventDefault();
         this.props.addIngredient(
             {
                 genre: this.props.genreIndex,
                 recipe: this.props.articles[this.props.genreIndex].recipes[this.props.recipeIndex].title,
                 ingredientTitle: this.state.title
-            })
-        this.setState({title: ''})
+            });
+        this.setState({title: ''});
     }
     
     addToSteps(event){
@@ -102,16 +101,13 @@ class Form extends Component {
 
     handleSubmit(event){ 
         if (this.props.username !== ""){
-            if( this.props.formType === 'adding-to-genres' ){
+            if( this.props.formType === "adding-to-genres" ){
                 this.addToGenres( event );
-            } else if ( this.props.formType === 'adding-to-recipes'){
+            } else if ( this.props.formType === "adding-to-recipes" ){
                 this.addToRecipes( event );
-            } else if ( this.props.formType === 'adding-to-ingredients' ){
-                this.addToIngredients( event );
-            } else if ( this.props.formType === 'adding-to-steps' ){
-                this.addToSteps(event);
-            } else {
-                alert('bug');
+            } 
+            else {
+                alert("You did not specify a form type in Form.js");
             }
         } else {
             alert("You must be logged in to add new items");

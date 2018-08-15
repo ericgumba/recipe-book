@@ -11,7 +11,15 @@ import {
     LOG_OUT
 } from '../constants/action-types'
 
+export const showGenre = () => ({
+    type: "SHOW_GENRE"
+});
 
+export const showRecipe = genreIndex => ({
+    type: "SHOW_RECIPE",
+    payload: genreIndex
+    
+});
 
 export const login = payload => ({
     type: LOG_IN,

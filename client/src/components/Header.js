@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import AppBar from './AppBar'
 import Popup from './Popup'
 import { connect } from 'react-redux' 
-import {login, logout} from '../actions/index'
+import {login, logout, showGenre, showRecipe} from '../actions/index'
 
 class Header extends Component {
     constructor(){
@@ -61,12 +61,14 @@ class Header extends Component {
         window.location.reload();
 
     } 
+ 
 
     render(){ 
         console.log("USER NAME IS::: " + this.props.username )
         return( <div>       
                 <AppBar nameDisplay={this.props.username} 
-                openPopup={(type) => this.setPopup(type)} 
+                openPopup={(type) => this.setPopup(type)}
+                handleBackButton={ () => this.props.showGenre() } 
                 logout={ () => this.handleLogout() }
                 handleLogin={ (username, password) => this.handleLogin( username, password )}
                 handleRegister={ (username, password) => this.handleRegister( username, password ) }/> 
@@ -84,7 +86,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => { // accepts redux's dispatch function.
     return{
         login: recipeBook => { return dispatch(login(recipeBook)) },
-        logout: () => { return dispatch(logout()) }
-    }
+        logout: () => { return dispatch(logout()) },
+        showGenre: () => {return dispatch(showGenre() )}
+    };
 }
-export default connect(mapStateToProps, mapDispatchToProps)(Header)
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
