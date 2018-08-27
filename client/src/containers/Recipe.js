@@ -10,7 +10,12 @@ import EditCard from '../components/EditCard';
  // Container for recipeCard child of RecipeCardsContainer
  
  // Todo: implement edit mode
- 
+ // known, genre index, recipe index.
+
+ // therefore edit recipe action, will be... 
+
+
+
  const flex = {
      display: "flex",
      // flexdirection: "row"
@@ -26,20 +31,47 @@ import EditCard from '../components/EditCard';
              editMode: false
          };
      }
+     componentDidUpdate(){   
+            this.updateBook().then( res => {
+                console.log("book updated")
+
+            }).catch( err => {
+                console.log(err)
+            });  
+    } 
+    async updateBook(){ 
+
+        const data = {recipeBook: this.props.articles, username: this.props.username};
+        console.log("UpdateBook from Recipe.js called.");
+        const response = await fetch("/updatebook", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const body = await response.json();
+        return body;
+    }
+     
  
      handleEditButton(){
          this.setState({editMode: !this.state.editMode});
      }
 
+     handleRecipeEdit(steps, ingredients){
+         let articles = [...this.props.articles]; 
+         
+         articles[this.props.genreIndex].recipes[this.props.index].steps = steps;
+         articles[this.props.genreIndex].recipes[this.props.index].ingredients = ingredients; 
+
+         // call action here, with the new articles.
+
+     }
+
 
      // Huge bug potential. =( 
 
-     handleDelete(){
-         alert("huge bug potentiaL?");
-         console.log("props");
-         console.log(this.props.genreIndex);
-         console.log(this.props.articles[this.props.genreIndex].genre);
-         console.log(this.props.recipeTitle);
+     handleDelete(){ 
         this.props.removeRecipe(
             { 
                 genreTitle: this.props.articles[this.props.genreIndex].genre, 
@@ -52,14 +84,16 @@ import EditCard from '../components/EditCard';
  
          const { index, recipe } = this.props;
          let {editMode} = this.state;
- 
-  
+
+         //handleRecipeEdit is a function that accepts an object the fields steps and ingredients. The reason why we
+         // don't have handle editButton call handleRecipeEdit is because it reduces coupling. 
          return(
              <div>
                  
                  {editMode ? 
                      <EditCard key={index} recipe={recipe} 
                      handleEditButton={ () => this.handleEditButton() }
+                     handleRecipeEdit={ (steps, ingredients) => this.handleRecipeEdit(steps, ingredients) } 
                      />
                      :
                      <RecipeCard key={index} recipe={recipe} 
@@ -74,7 +108,8 @@ import EditCard from '../components/EditCard';
 
  Recipe.propTypes = {
      genreIndex: PropTypes.number.isRequired,
-     recipeTitle: PropTypes.string.isRequired   
+     recipeTitle: PropTypes.string.isRequired,
+     key: PropTypes.number.isRequired 
  }
   
  

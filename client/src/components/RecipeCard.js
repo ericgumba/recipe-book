@@ -56,6 +56,13 @@ class RecipeReviewCard extends React.Component {
 
   render() {
     const { classes, recipe } = this.props;
+
+    // images can be found using require which then saves it under a public/static/images folder once react is compiled  into regular javascript.
+
+    let foodImage = require("../images/garlic-chicken-oh.jpg");
+    if (recipe.title === "Shrimp and Chorizo Paella"){
+      foodImage = require("../images/shrimp.jpeg")
+    } 
  
     return (
       <div>
@@ -74,7 +81,7 @@ class RecipeReviewCard extends React.Component {
           />
           <CardMedia
             className={classes.media}
-            image="/static/images/cards/paella.jpg"
+            image={String(foodImage)}
             title="Contemplative Reptile"
           />
           <CardContent>

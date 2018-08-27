@@ -21,6 +21,13 @@ export const showRecipe = genreIndex => ({
     
 });
 
+export const editRecipe = newArticles =>({
+    type: "EDIT_RECIPE",
+    payload: newArticles
+})
+
+// we need a new action called edit recipe
+
 export const login = payload => ({
     type: LOG_IN,
     payload: payload.recipeBook,

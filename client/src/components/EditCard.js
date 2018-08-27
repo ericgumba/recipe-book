@@ -17,7 +17,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import RecipeCardMenu from "./RecipeCardMenu";
-import { EditField } from './EditField';
+import  EditField  from './EditField';
 import Button from '@material-ui/core/Button';
 import MultiLineEditField  from './MultiLineEditField';
 const styles = theme => ({
@@ -51,15 +51,59 @@ const styles = theme => ({
 });
 
 class RecipeReviewCard extends React.Component {
-  state = { expanded: true };
+  state = { 
+      expanded: true,
+      steps: this.props.recipe.steps,
+      ingredients: this.props.recipe.ingredients
+
+
+    };
+
+
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
+  handleFinishedEditing = () => {
+      // when creating an object, with another objects fields as its fields, we need to explicitly
+      // declare what the field is called. Otherwies it wil lautomatically have fields which is called
+      // the vvariable name. Furthermore
+      this.props.handleRecipeEdit(this.state.steps, this.state.ingredients);
+      this.props.handleEditButton();
+  }
+
+  addIngredient = () => { 
+    this.setState({ingredients: [...this.state.ingredients, ""]});
+  }
+  addStep = () => {
+    this.setState({steps: [...this.state.steps, ""] });
+  }
+
+  handleStepEdit(index, value){
+    console.log("handleStepEdit in editcard called"); 
+    let newSteps = [...this.state.steps]; 
+    newSteps[index] = value;
+    console.log(newSteps);
+    this.setState({steps: newSteps});
+  }
+
+  handleIngredientEdit(index, value){
+      console.log("handle ingredient in editcard called");
+      let newIngredients = [...this.state.ingredients];
+      newIngredients[index] = value;
+      console.log(newIngredients);
+      this.setState({ingredients: newIngredients});
+  }
+
+  handleDone(){
+   }
   render() {
     const { classes, recipe } = this.props;
+    const { steps, ingredients } = this.state;
  
+
+    // attempting to replace recipe with state in order to fix bug with adding step/recipe
     return (
       <div>
         <Card className={classes.card}>
@@ -73,10 +117,13 @@ class RecipeReviewCard extends React.Component {
           />
           <CardContent>
             <ul>
-            {recipe.ingredients.map( ingredient => {return( 
-              <EditField ingredient={ingredient}/>
+            {ingredients.map( (ingredient, index) => {return( 
+              <EditField ingredient={ingredient} index={index} handleIngredientEdit={(index, value) => this.handleIngredientEdit(index, value)}/>
             ) } ) }
             </ul>
+
+            <Button style={{backgroundColor:"green"}} onClick={this.addIngredient}> Add Ingredient </Button>
+
             <Typography component="p"> 
             </Typography>
           </CardContent> 
@@ -86,18 +133,20 @@ class RecipeReviewCard extends React.Component {
                 Method:
               </Typography>
 
-              {recipe.steps.map( step => { 
+              {steps.map( (step, index) => { 
                 return(
                   <Typography paragraph>
-                    <MultiLineEditField step={step} />
+                    <MultiLineEditField step={step} index={index} handleStepEdit={(index,value) => this.handleStepEdit(index, value)} />
                   </Typography>
 
                 );
-               } )} 
+               } )}
+
+               <Button style={{backgroundColor:"green"}} onClick={this.addStep}> Add Step </Button> 
 
             </CardContent>
 
-              <Button variant="text" backgroundColor="red" onClick={ () => this.props.handleEditButton() }>Done</Button>
+              <Button variant="text" style={{backgroundColor:"red"}} onClick={this.handleFinishedEditing}>Done</Button>
           </Collapse>
         </Card>
       </div>

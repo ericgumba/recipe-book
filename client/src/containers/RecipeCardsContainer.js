@@ -36,7 +36,7 @@ class RecipeCardsContainer extends Component {
         return(
         <div style={{display: "flex"}}> 
             {recipes.map( (recipe, index) => {
-                return (<Recipe key={index} recipe={recipe} recipeTitle={recipe.title} genreIndex={this.props.genreIndex}/>)
+                return (<Recipe key={index} index={index} recipe={recipe} recipeTitle={recipe.title} genreIndex={this.props.genreIndex}/>)
             }) }
  
         </div>

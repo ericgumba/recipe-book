@@ -41,6 +41,9 @@ const newState = (state, object) => {
  
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
+        case "EDIT_RECIPE": 
+            return newState( state, {articles: action.payload});
+
         case "SHOW_GENRE":
             return newState( state, {showGenres: true} );
         case "SHOW_RECIPE":

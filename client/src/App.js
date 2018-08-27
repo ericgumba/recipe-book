@@ -44,7 +44,7 @@
 
         const {message} = this.state;
         return (
-          <div className="App"> 
+          <div className="App" style={{backgroundColor:"#D3D3D3"}}> 
             <Header/> 
             <RecipeCardMenu/>
             <GenreList showGenres={this.state.showGenres} /> 

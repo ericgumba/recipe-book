@@ -5,19 +5,20 @@ import AddIcon from '@material-ui/icons/Add';
 import React, {Component} from 'react';
 
 
-
+// recipeCardsContainer -> recipe -> editCard -> multilineeditcard
 class MultiLineEditField extends Component{
 
     constructor(props){
         super(props);
         this.state = {
             text: this.props.step
-        }
+        };
 
     }
 
     handleChange(e){
         console.log(e.target.value);
+        this.props.handleStepEdit(this.props.index,e.target.value);
         this.setState({text: e.target.value});
         
     }
