@@ -29,7 +29,14 @@ class SimpleMenu extends React.Component {
     this.props.handleEditButton();
     this.setState({ anchorEl: null});
   }
- 
+
+  handleUploadPhoto = (event) => {
+    document.getElementById("upload").click(); 
+  }
+  // goal, upload photo to the server, i guess using updatebook.
+  handleFileChange = selectorFile => {
+    console.log(selectorFile);
+  }
 
   render() {
     const { anchorEl } = this.state;
@@ -51,8 +58,9 @@ class SimpleMenu extends React.Component {
           onClose={this.handleClose}
         >
           <MenuItem onClick={this.handleDelete}>Delete</MenuItem>
-          <MenuItem onClick={this.handleEdit}>Edit</MenuItem>
-          <MenuItem onClick={this.handleClose}>Upload Photo</MenuItem>
+          <MenuItem onClick={this.handleEdit}>Edit</MenuItem> 
+          <input type="file" id="upload" onChange={ event => this.handleFileChange(event.target.files) } hidden/>
+          <MenuItem onClick={ this.handleUploadPhoto } >Upload Photo</MenuItem> 
         </Menu>
       </div>
     );

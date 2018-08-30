@@ -57,7 +57,8 @@ class RecipeReviewCard extends React.Component {
   render() {
     const { classes, recipe } = this.props;
 
-    // images can be found using require which then saves it under a public/static/images folder once react is compiled  into regular javascript.
+    // images can be found using require which then saves it under a public/static/images folder once react is compiled  into regular javascript. 
+    // by the way, two dots ( .. ) means look in the previous directory ( the parent of the current directory ), whereas one dot ( . ) means to look in current directory
 
     let foodImage = require("../images/garlic-chicken-oh.jpg");
     if (recipe.title === "Shrimp and Chorizo Paella"){
