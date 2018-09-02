@@ -1,21 +1,28 @@
-const express = require('express') 
-const mongoose = require('mongoose')
-const app = express()
-const keys = require('./config/keys')
-require('./models/user')
-const User = mongoose.model('User')
-const bodyParser = require('body-parser')
+const express = require('express');
+const mongoose = require('mongoose');
+const app = express();
+const keys = require('./config/keys');
+require('./models/user');
+const User = mongoose.model('User');
+const bodyParser = require('body-parser');
+const multer = require("multer");
+const fs = require("fs");
 
+// multer accepts options object, wghich allows one to 
+const upload = multer({dest: "uploads/"});
+const cpUpload = upload.single("file");
 
-mongoose.connect(keys.mongoURI)
+mongoose.connect(keys.mongoURI);
+// upload.any
 
-const jsonParser = bodyParser.json()
-const urlEncodedParser = bodyParser.urlencoded({extended: false})
+const jsonParser = bodyParser.json();
+const urlEncodedParser = bodyParser.urlencoded({extended: false});
 
 handleError = (err) => { 
-    console.log("Wow, what happened?") 
+    console.log("Wow, what happened?"); 
 }
 
+// plan, add the img property to user. Figure out how to use middleware
 
 app.get('/identity', (req, res) => {
     
@@ -48,7 +55,17 @@ app.get('/identity', (req, res) => {
 })
  
 
+// what middleware does is parse the request, and then attach fields to that request. For example jsonParser will contain req.body,
+// multer will have req.file. 
 
+
+// an interesting note is that when you send a response, it must be in the form of an object literal
+// what is middleware? req.file is undefined which could mean that 
+app.post("/upload", cpUpload, (req, res, next) => {
+    console.log("app.post /upload");
+    console.log(req.file); 
+    res.send({msg:"succ"});
+});
 
 app.post('/login', jsonParser, (req, res) => { 
 
@@ -64,8 +81,7 @@ app.post('/login', jsonParser, (req, res) => {
         } else {
             console.log(`error found in /login, ${err}`)
             res.status(400)
-            res.send('None Shall Pass')
-
+            res.send('None Shall Pass') 
         }
     } )
  
