@@ -48,22 +48,32 @@ const styles = theme => ({
 });
 
 class RecipeReviewCard extends React.Component {
-  state = { expanded: false };
+  state = { expanded: false,
+    imag: ""
+  };
 
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
-
+  setImag = (url) => {
+    console.log("clicked on set imag");
+    console.log( String( url ) );
+    this.setState({ imag: String(url) });
+  }
   render() {
     const { classes, recipe } = this.props;
-
+    let foodImage;
     // images can be found using require which then saves it under a public/static/images folder once react is compiled  into regular javascript. 
     // by the way, two dots ( .. ) means look in the previous directory ( the parent of the current directory ), whereas one dot ( . ) means to look in current directory
-
-    let foodImage = require("../images/garlic-chicken-oh.jpg");
-    if (recipe.title === "Shrimp and Chorizo Paella"){
-      foodImage = require("../images/shrimp.jpeg")
+    if (this.state.imag !== ""){
+      console.log(this.state.imag);
+      foodImage = this.state.imag;  
+    }
+    if (recipe.title === "Oven-Roasted Garlic Chicken"){
+      foodImage = require("../images/garlic-chicken-oh.jpg");
     } 
+    console.log("food image:");
+    console.log(foodImage);
  
     return (
       <div>
@@ -75,7 +85,7 @@ class RecipeReviewCard extends React.Component {
               </Avatar>
             }
             action={
-              <RecipeCardMenu handleDelete={() => this.props.handleDelete() } handleEditButton={() => this.props.handleEditButton()}/>
+              <RecipeCardMenu handleDelete={() => this.props.handleDelete() } handleEditButton={() => this.props.handleEditButton()} setImag={ url => this.setImag(url)}  />
             }
             title={recipe.title}
             // subheader="September 14, 2016"

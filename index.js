@@ -10,8 +10,18 @@ const fs = require("fs");
 
 // multer accepts options object, wghich allows one to 
 const upload = multer({dest: "uploads/"});
+
+// the upload needs to be the same exact name as the key value in form data
+// also the reason why it needs to be formdata is probably because multer 
+// needed to parse the file hence why the html
+// formdata.append("file", fileObject) === <input name="file">
 const cpUpload = upload.single("file");
 
+
+// possible use
+app.use(express.static('uploads'));
+
+// approach 1: send the file path to 
 mongoose.connect(keys.mongoURI);
 // upload.any
 
@@ -61,10 +71,20 @@ app.get('/identity', (req, res) => {
 
 // an interesting note is that when you send a response, it must be in the form of an object literal
 // what is middleware? req.file is undefined which could mean that 
+// how to get file path multer
+
+// goal, collect username under req.body, perhaps using form upload?
 app.post("/upload", cpUpload, (req, res, next) => {
     console.log("app.post /upload");
-    console.log(req.file); 
-    res.send({msg:"succ"});
+    console.log(req.file.path); 
+
+    const host = req.hostname;
+    const filePath = req.protocol + "://" + host + ':5000/' + req.file.filename;
+    console.log(host);
+    console.log("file path es");
+    console.log(filePath);
+    res.send({msg:filePath});
+
 });
 
 app.post('/login', jsonParser, (req, res) => { 
@@ -138,7 +158,6 @@ app.post('/newuser', jsonParser, (req, res) => {
     console.log('/newuser was called')
     
 
-
     console.log("What is going on??" + req.body)
     const recipeBook = 
     [  
@@ -150,24 +169,19 @@ app.post('/newuser', jsonParser, (req, res) => {
                     title: 'Oven-Roasted Garlic Chicken', 
                     ingredients: ['Chicken', 'garlic'], 
                     steps: ['Stick in oven', 'wait 30 minutes ']
-                },
-                {
-                    title: 'pizza',
-                    ingredients: ['cheese', 'bread'],
-                    steps: ['stick in oven', 'wait 30 minutes ']
                 }
             ]
         }
-    ] 
+    ]; 
     // when creating, do we have to do username.type?
     User.create({username: req.body.username, password: req.body.password, recipeBook}, (err, doc) => {
         if(err){
-            console.log('error found in /newuser')
-            console.log(err) 
-            res.status(400)
-            res.send({msg: 'failure'})
+            console.log('error found in /newuser');
+            console.log(err); 
+            res.status(400);
+            res.send({msg: 'failure'});
         } else {
-            res.send({username: req.body.username, recipeBook})
+            res.send({username: req.body.username, recipeBook});
         }
     })
  
@@ -175,4 +189,4 @@ app.post('/newuser', jsonParser, (req, res) => {
 
 const port = process.env.PORT || 5000;
 
-app.listen(port)
+app.listen(port);

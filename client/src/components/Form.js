@@ -96,7 +96,7 @@ class Form extends Component {
 
 
     handleChange(event){
-        this.setState({ title: event.target.value })
+        this.setState({ title: event.target.value });
     }
 
     handleSubmit(event){ 

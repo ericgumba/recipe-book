@@ -13,24 +13,26 @@ import PropTypes from 'prop-types';
 class SimpleMenu extends React.Component {
   state = {
     anchorEl: null,
-  };
+  }; 
 
   upload = async fileToUpload => {
 
     // what is formdata object? What is blob object? 
+    // form data is a object that allows you to work with multer. I believe that it's unique to react.
 
     let form = new FormData();
 
     form.append("file", fileToUpload);
 
-    // another possibility is that under headers, it could be the content type is   
+    // Form data is used in order to use ajax. When communicating to the backend server
+    // we need it in a form that the backend can parse, or more specifically the multer
+    // backend 
+
     const response = await fetch("/upload", {
       method: "POST", 
       body: form
     });
-
     const body = await response.json();
-
     return body;
   }
 
@@ -66,10 +68,12 @@ class SimpleMenu extends React.Component {
   handleFileSubmit = e => {
     e.preventDefault();
     console.log("e.target.files"); 
-    var input = document.querySelector('input[type="file"]');
-    console.log(input.files[0]);
-
-    this.upload(input.files[0]).then( res => { console.log("file upload success") } ).catch( err => { console.log("file upload fail")} );
+    var input = document.querySelector('input[type="file"]'); 
+     
+    this.upload(input.files[0]).then( res => { 
+      this.props.setImag(res.msg); 
+    
+    } ).catch( err => { console.log("file upload fail")} );
 
 
   }
@@ -98,12 +102,12 @@ class SimpleMenu extends React.Component {
           <MenuItem onClick={this.handleEdit}>Edit</MenuItem> 
           <form method="post" encType="multipart/form-data" action="/upload">
             <input type="hidden" name="msgtype" value="2"/>
-            <input type="file" name="images" id="imgUpload" onChange={this.handleFileChange} />
-            <input type="submit" value="Upload" id="imgSubmit" onClick={this.handleFileSubmit} />
+            <input type="file" name="images" id="imgUpload" onChange={this.handleFileChange} hidden />
+            <input type="submit" value="Upload" id="imgSubmit" onClick={this.handleFileSubmit} hidden />
           </form>
           <MenuItem onClick={this.handleUploadPhoto}> Upload Photo </MenuItem>
         </Menu>
-      </div>
+      </div>  
     );
   }
 }
