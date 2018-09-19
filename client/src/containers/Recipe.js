@@ -4,7 +4,7 @@
  import { connect } from 'react-redux'; 
  import RecipeCard from "../components/RecipeCard";
  import PropTypes from 'prop-types';
- import { login, logout, showGenre, showRecipe, removeRecipe, addImage } from "../actions/index"
+ import { login, logout, showGenre, showRecipe, removeRecipe, addImage, editRecipe } from "../actions/index"
 import EditCard from '../components/EditCard';
  // Container for recipeCard child of RecipeCardsContainer
  
@@ -23,7 +23,8 @@ import EditCard from '../components/EditCard';
          super();
  
          this.state = { 
-             editMode: false
+             editMode: false,
+             add: 0
          };
      }
      componentDidUpdate(){   
@@ -54,6 +55,14 @@ import EditCard from '../components/EditCard';
      handleEditButton(){
          this.setState({editMode: !this.state.editMode});
      }
+     handleDeleteButton(){
+         console.log("Handle Delete called")
+         this.setState({editMode: !this.state.editMode}); 
+     }
+     partTwo(){
+         console.log("Part two called");
+         this.setState({editMode: true});
+     }
 
      handleRecipeEdit(steps, ingredients){
          let articles = [...this.props.articles]; 
@@ -61,10 +70,15 @@ import EditCard from '../components/EditCard';
          articles[this.props.genreIndex].recipes[this.props.index].steps = steps;
          articles[this.props.genreIndex].recipes[this.props.index].ingredients = ingredients; 
 
-         // call action here, with the new articles.
+        //  this.setState({add: this.stateadd+1});
 
+         this.props.editRecipe(articles);
      }
 
+    //  export const editRecipe = newArticles =>({
+    //     type: "EDIT_RECIPE",
+    //     payload: newArticles
+    // })
      handleUploadPhoto(photo){
          console.log("added in the.... Thing");
          let articles = [...this.props.articles]; 
@@ -99,6 +113,7 @@ import EditCard from '../components/EditCard';
                  {editMode ? 
                      <EditCard key={index} recipe={recipe} 
                      handleEditButton={ () => this.handleEditButton() }
+                     handleDeleteButton={ () => this.handleDeleteButton() }
                      handleRecipeEdit={ (steps, ingredients) => this.handleRecipeEdit(steps, ingredients) } 
                      genreTitle={this.props.articles[this.props.genreIndex].genre}
                      />
@@ -135,7 +150,8 @@ import EditCard from '../components/EditCard';
          showGenre: () => {return dispatch(showGenre() )},
          showRecipe: genreIndex => { return dispatch( showRecipe(genreIndex)) },
          removeRecipe: ({genreTitle, recipeTitle}) => { return dispatch( removeRecipe({ genreTitle, recipeTitle}))},
-         addImage: image => {return dispatch(addImage(image))} 
+         addImage: image => {return dispatch(addImage(image))},
+         editRecipe: newArticles => { return dispatch(editRecipe(newArticles)) } 
      }
  };
  export default connect(mapStateToProps, mapDispatchToProps)(Recipe);

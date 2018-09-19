@@ -56,16 +56,21 @@ class RecipeReviewCard extends React.Component {
     this.setState(state => ({ expanded: !state.expanded }));
   };
 
-  handleFinishedEditing = () => {
-      // when creating an object, with another objects fields as its fields, we need to explicitly
-      // declare what the field is called. Otherwies it wil lautomatically have fields which is called
-      // the vvariable name. Furthermore
+  handleFinishedEditing = () => { 
       this.props.handleRecipeEdit(this.state.steps, this.state.ingredients);
       this.props.handleEditButton();
   }
 
   addIngredient = () => { 
-    this.setState({ingredients: [...this.state.ingredients, ""]});
+
+    let ingredients = [...this.state.ingredients];
+
+    let newIngredients = ingredients.filter( v => v !== undefined );
+    console.log("add Ingredients called");
+
+    console.log(newIngredients);
+
+    this.setState({ingredients: [...newIngredients, ""]});
   }
   addStep = () => {
     this.setState({steps: [...this.state.steps, ""] });
@@ -80,10 +85,15 @@ class RecipeReviewCard extends React.Component {
   }
 
   handleDeleteStep(index){
-    let newIngredients = [...this.state.ingredients];
-    newIngredients.splice(index, 1);
-    console.log("New Ingredients", newIngredients);
-    this.setState({ingredients: newIngredients});
+    let ingredients = [...this.state.steps]; 
+    let newSteps = this.state.steps.filter( (value, i) =>  i !== index  ); 
+    // this.setState({ingredients: newIngredients});
+    // delete(ingredients[index]);
+ 
+    // this.setState({ingredients: ingredients});
+    this.props.handleRecipeEdit(newSteps, this.state.ingredients);
+    this.props.handleDeleteButton();
+
   }
   handleIngredientEdit(index, value){
     console.log("handle ingredient in editcard called");
@@ -91,14 +101,24 @@ class RecipeReviewCard extends React.Component {
     newIngredients[index] = value;
     console.log(newIngredients);
     this.setState({ingredients: newIngredients});
+
   }
 
   handleDeleteIngredient(index){
     let ingredients = [...this.state.ingredients]; 
-    let newIngredients = ingredients.filter( (value, i) =>  i !== index  ); 
+    let newIngredients = this.state.ingredients.filter( (value, i) =>  i !== index  ); 
+    // this.setState({ingredients: newIngredients});
+    // delete(ingredients[index]);
 
+    console.log(ingredients);
+    // this.setState({ingredients: ingredients});
+    this.props.handleRecipeEdit(this.state.steps, newIngredients);
+    this.props.handleDeleteButton();
 
-    this.setState({ingredients: newIngredients});
+    // let newIngredients = [...this.state.ingredients];
+    // delete( newIngredients[index]);
+    // console.log(newIngredients);
+    // this.setState({ingredients: newIngredients});
   }
 
  
@@ -128,7 +148,11 @@ class RecipeReviewCard extends React.Component {
           />
           <CardContent>
             <ul>
-            {ingredients.map( (ingredient, index) => {return( 
+            {ingredients.map( (ingredient, index) => {
+              if (ingredient===null){
+                return {}
+              } else 
+              return( 
               <EditField ingredient={ingredient} index={index} handleIngredientEdit={(index, value) => this.handleIngredientEdit(index, value)} handleDeleteIngredient={(index) => this.handleDeleteIngredient(index)} />
             ) } ) }
             </ul>
@@ -139,7 +163,7 @@ class RecipeReviewCard extends React.Component {
             </Typography>
           </CardContent> 
           <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
-            <CardContent>
+            <CardContent> 
               <Typography paragraph variant="body2">
                 Method:
               </Typography>
@@ -147,7 +171,7 @@ class RecipeReviewCard extends React.Component {
               {steps.map( (step, index) => { 
                 return(
                   <Typography paragraph>
-                    <MultiLineEditField step={step} index={index} handleStepEdit={(index,value) => this.handleStepEdit(index, value)}  handleDeleteStep={ (index) => this.handleDeleteStep } />
+                    <MultiLineEditField step={step} index={index} handleStepEdit={(index,value) => this.handleStepEdit(index, value)}  handleDeleteStep={ (index) => this.handleDeleteStep(index) } />
                   </Typography>
 
                 );
