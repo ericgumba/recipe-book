@@ -1,11 +1,10 @@
  // Container for GenreButtons and 
 
  import React, { Component } from 'react';
- import { connect } from 'react-redux';
- import GenreButtons from "../components/GenreButtons"; 
+ import { connect } from 'react-redux'; 
  import RecipeCard from "../components/RecipeCard";
  import PropTypes from 'prop-types';
- import { login, logout, showGenre, showRecipe, removeRecipe } from "../actions/index"
+ import { login, logout, showGenre, showRecipe, removeRecipe, addImage } from "../actions/index"
 import EditCard from '../components/EditCard';
  // Container for recipeCard child of RecipeCardsContainer
  
@@ -15,11 +14,7 @@ import EditCard from '../components/EditCard';
  // therefore edit recipe action, will be... 
 
 
-
- const flex = {
-     display: "flex",
-     // flexdirection: "row"
- };
+ 
  
  // container for recipeCard, and RecipeCardMenu
  class Recipe extends Component {
@@ -32,13 +27,16 @@ import EditCard from '../components/EditCard';
          };
      }
      componentDidUpdate(){   
-            this.updateBook().then( res => {
-                console.log("book updated")
-
-            }).catch( err => {
-                console.log(err)
-            });  
+         this.updateHelper();
     } 
+    updateHelper(){
+        this.updateBook().then( res => { 
+
+        }).catch( err => {
+            console.log(err)
+        });  
+
+    }
     async updateBook(){ 
 
         const data = {recipeBook: this.props.articles, username: this.props.username};
@@ -47,8 +45,7 @@ import EditCard from '../components/EditCard';
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data)
-        });
-
+        }); 
         const body = await response.json();
         return body;
     }
@@ -68,6 +65,16 @@ import EditCard from '../components/EditCard';
 
      }
 
+     handleUploadPhoto(photo){
+         console.log("added in the.... Thing");
+         let articles = [...this.props.articles]; 
+         articles[this.props.genreIndex].recipes[this.props.index].image = photo; 
+         this.props.addImage(articles);
+
+         this.updateHelper();
+
+     }
+
 
      // Huge bug potential. =( 
 
@@ -80,8 +87,7 @@ import EditCard from '../components/EditCard';
      }
  
  
-     render(){ 
- 
+     render(){   
          const { index, recipe } = this.props;
          let {editMode} = this.state;
 
@@ -94,11 +100,13 @@ import EditCard from '../components/EditCard';
                      <EditCard key={index} recipe={recipe} 
                      handleEditButton={ () => this.handleEditButton() }
                      handleRecipeEdit={ (steps, ingredients) => this.handleRecipeEdit(steps, ingredients) } 
+                     genreTitle={this.props.articles[this.props.genreIndex].genre}
                      />
                      :
                      <RecipeCard key={index} recipe={recipe} 
-                     handleDelete={ () => this.handleDelete()}
-                     handleEditButton={ () => this.handleEditButton()}
+                     handleDelete={ () => this.handleDelete() }
+                     handleEditButton={ () => this.handleEditButton() }
+                     handleUploadPhoto={ (photo) => this.handleUploadPhoto(photo) }
                       /> 
                   }
              </div>
@@ -108,8 +116,7 @@ import EditCard from '../components/EditCard';
 
  Recipe.propTypes = {
      genreIndex: PropTypes.number.isRequired,
-     recipeTitle: PropTypes.string.isRequired,
-     key: PropTypes.number.isRequired 
+     recipeTitle: PropTypes.string.isRequired, 
  }
   
  
@@ -127,7 +134,8 @@ import EditCard from '../components/EditCard';
          logout: () => { return dispatch(logout()) },
          showGenre: () => {return dispatch(showGenre() )},
          showRecipe: genreIndex => { return dispatch( showRecipe(genreIndex)) },
-         removeRecipe: ({genreTitle, recipeTitle}) => { return dispatch( removeRecipe({ genreTitle, recipeTitle}))}
+         removeRecipe: ({genreTitle, recipeTitle}) => { return dispatch( removeRecipe({ genreTitle, recipeTitle}))},
+         addImage: image => {return dispatch(addImage(image))} 
      }
  };
  export default connect(mapStateToProps, mapDispatchToProps)(Recipe);

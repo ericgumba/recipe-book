@@ -15,8 +15,7 @@ import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import RecipeCardMenu from "./RecipeCardMenu";
+ import RecipeCardMenu from "./RecipeCardMenu";
 const styles = theme => ({
   card: {
     maxWidth: 400,
@@ -48,31 +47,20 @@ const styles = theme => ({
 });
 
 class RecipeReviewCard extends React.Component {
-  state = { expanded: false,
-    imag: ""
+  state = { expanded: false 
   };
-
   handleExpandClick = () => {
     this.setState(state => ({ expanded: !state.expanded }));
   };
-  setImag = (url) => {
-    console.log("clicked on set imag");
-    console.log( String( url ) );
-    this.setState({ imag: String(url) });
+  setImag = (url) => { 
+    this.props.handleUploadPhoto(String(url));    
   }
   render() {
     const { classes, recipe } = this.props;
-    let foodImage;
-    // images can be found using require which then saves it under a public/static/images folder once react is compiled  into regular javascript. 
-    // by the way, two dots ( .. ) means look in the previous directory ( the parent of the current directory ), whereas one dot ( . ) means to look in current directory
-    if (this.state.imag !== ""){
-      console.log(this.state.imag);
-      foodImage = this.state.imag;  
-    }
+    let foodImage = recipe.image; 
     if (recipe.title === "Oven-Roasted Garlic Chicken"){
       foodImage = require("../images/garlic-chicken-oh.jpg");
-    } 
-    console.log("food image:");
+    }  
     console.log(foodImage);
  
     return (
@@ -98,7 +86,7 @@ class RecipeReviewCard extends React.Component {
           <CardContent>
             <ul>
             {recipe.ingredients.map( ingredient => {return( 
-              <li>{ingredient} </li>
+              <li key={ingredient} >{ingredient} </li>
             ) } ) }
             </ul>
             <Typography component="p"> 
@@ -128,9 +116,9 @@ class RecipeReviewCard extends React.Component {
                 Method:
               </Typography>
 
-              {recipe.steps.map( step => { 
+              {recipe.steps.map( (step, index) => { 
                 return(
-                  <Typography paragraph>
+                  <Typography key={index} paragraph>
                     {step}
                   </Typography>
 

@@ -35,7 +35,7 @@ handleError = (err) => {
 // plan, add the img property to user. Figure out how to use middleware
 
 app.get('/identity', (req, res) => {
-    
+    console.log("IDENTITY");
     const book = 
     [  
         {              
@@ -45,7 +45,9 @@ app.get('/identity', (req, res) => {
                 { 
                     title: 'Oven-Roasted Garlic Chicken', 
                     ingredients: ['Chicken', 'garlic'], 
-                    steps: ['Stick in oven', 'wait 30 minutes ']
+                    steps: ['Stick in oven', 'wait 30 minutes '],
+                    image: ""
+                    
                 } 
             ]
         }
@@ -79,13 +81,18 @@ app.post("/upload", cpUpload, (req, res, next) => {
     console.log(req.file.path); 
 
     const host = req.hostname;
-    const filePath = req.protocol + "://" + host + ':5000/' + req.file.filename;
+    const filePath = req.protocol + "://" + host + ':5000/' + req.file.filename; // IMPORTANT, WE GET RID OF 5000 AFTER UPDATE.
     console.log(host);
     console.log("file path es");
     console.log(filePath);
     res.send({msg:filePath});
 
 });
+
+// try just calling updateBook for now
+app.post("savephoto", jsonParser, (req, res) => { 
+
+})
 
 app.post('/login', jsonParser, (req, res) => { 
 
@@ -156,9 +163,7 @@ app.post('/updatebook', jsonParser, (req, res) => {
 app.post('/newuser', jsonParser, (req, res) => {
 
     console.log('/newuser was called')
-    
-
-    console.log("What is going on??" + req.body)
+     
     const recipeBook = 
     [  
         {              
@@ -168,7 +173,8 @@ app.post('/newuser', jsonParser, (req, res) => {
                 { 
                     title: 'Oven-Roasted Garlic Chicken', 
                     ingredients: ['Chicken', 'garlic'], 
-                    steps: ['Stick in oven', 'wait 30 minutes ']
+                    steps: ['Stick in oven', 'wait 30 minutes '],
+                    image: ""
                 }
             ]
         }

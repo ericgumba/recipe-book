@@ -1,22 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import classnames from 'classnames';
-import Card from '@material-ui/core/Card';
+ import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
+ import Collapse from '@material-ui/core/Collapse'; 
 import Typography from '@material-ui/core/Typography';
-import red from '@material-ui/core/colors/red';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import RecipeCardMenu from "./RecipeCardMenu";
+import red from '@material-ui/core/colors/red'; 
 import  EditField  from './EditField';
 import Button from '@material-ui/core/Button';
 import MultiLineEditField  from './MultiLineEditField';
@@ -88,20 +79,40 @@ class RecipeReviewCard extends React.Component {
     this.setState({steps: newSteps});
   }
 
+  handleDeleteStep(index){
+    let newIngredients = [...this.state.ingredients];
+    newIngredients.splice(index, 1);
+    console.log("New Ingredients", newIngredients);
+    this.setState({ingredients: newIngredients});
+  }
   handleIngredientEdit(index, value){
-      console.log("handle ingredient in editcard called");
-      let newIngredients = [...this.state.ingredients];
-      newIngredients[index] = value;
-      console.log(newIngredients);
-      this.setState({ingredients: newIngredients});
+    console.log("handle ingredient in editcard called");
+    let newIngredients = [...this.state.ingredients];
+    newIngredients[index] = value;
+    console.log(newIngredients);
+    this.setState({ingredients: newIngredients});
   }
 
+  handleDeleteIngredient(index){
+    let ingredients = [...this.state.ingredients]; 
+    let newIngredients = ingredients.filter( (value, i) =>  i !== index  ); 
+
+
+    this.setState({ingredients: newIngredients});
+  }
+
+ 
   handleDone(){
    }
   render() {
     const { classes, recipe } = this.props;
     const { steps, ingredients } = this.state;
  
+    let foodImage = recipe.image; 
+    if (recipe.title === "Oven-Roasted Garlic Chicken"){
+      foodImage = require("../images/garlic-chicken-oh.jpg");
+    } 
+  
 
     // attempting to replace recipe with state in order to fix bug with adding step/recipe
     return (
@@ -112,13 +123,13 @@ class RecipeReviewCard extends React.Component {
           />
           <CardMedia
             className={classes.media}
-            image="/static/images/cards/paella.jpg"
+            image={foodImage}
             title="Contemplative Reptile"
           />
           <CardContent>
             <ul>
             {ingredients.map( (ingredient, index) => {return( 
-              <EditField ingredient={ingredient} index={index} handleIngredientEdit={(index, value) => this.handleIngredientEdit(index, value)}/>
+              <EditField ingredient={ingredient} index={index} handleIngredientEdit={(index, value) => this.handleIngredientEdit(index, value)} handleDeleteIngredient={(index) => this.handleDeleteIngredient(index)} />
             ) } ) }
             </ul>
 
@@ -136,7 +147,7 @@ class RecipeReviewCard extends React.Component {
               {steps.map( (step, index) => { 
                 return(
                   <Typography paragraph>
-                    <MultiLineEditField step={step} index={index} handleStepEdit={(index,value) => this.handleStepEdit(index, value)} />
+                    <MultiLineEditField step={step} index={index} handleStepEdit={(index,value) => this.handleStepEdit(index, value)}  handleDeleteStep={ (index) => this.handleDeleteStep } />
                   </Typography>
 
                 );

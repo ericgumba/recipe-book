@@ -1,10 +1,8 @@
 import React, { Component } from 'react'  
-import { connect } from 'react-redux' 
-import { addGenre, addIngredient, addRecipe, addStep } from '../actions/index';
+import { connect } from 'react-redux'  
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import AddIcon from '@material-ui/icons/Add';  
-import {login, logout} from '../actions/index';
+import Button from '@material-ui/core/Button'; 
+import {login} from '../actions/index';
 
 class Popup extends Component {  
 

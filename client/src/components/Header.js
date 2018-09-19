@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import AppBar from './AppBar'
-import Popup from './Popup'
 import { connect } from 'react-redux' 
-import {login, logout, showGenre, showRecipe} from '../actions/index'
+import {login, logout, showGenre} from '../actions/index'
 
 class Header extends Component {
     constructor(){
@@ -63,8 +62,7 @@ class Header extends Component {
     } 
  
 
-    render(){ 
-        console.log("USER NAME IS::: " + this.props.username )
+    render(){  
         return( <div>       
                 <AppBar nameDisplay={this.props.username} 
                 openPopup={(type) => this.setPopup(type)}

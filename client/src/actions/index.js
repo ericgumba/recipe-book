@@ -11,6 +11,11 @@ import {
     LOG_OUT
 } from '../constants/action-types'
 
+export const addImage = newArticles => ({
+    type: "ADD_IMAGE",
+    payload: newArticles
+})
+
 export const showGenre = () => ({
     type: "SHOW_GENRE"
 });

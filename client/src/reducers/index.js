@@ -23,7 +23,8 @@ const initialState =
                     { 
                         title: 'Oven-Roasted Garlic Chicken', 
                         ingredients: ['Chicken', 'garlic'], 
-                        steps: ['Stick in oven', 'wait 30 minutes ']
+                        steps: ['Stick in oven', 'wait 30 minutes '],
+                        image: ''
                     }
                 ]
             }],
@@ -41,9 +42,10 @@ const newState = (state, object) => {
  
 const rootReducer = (state = initialState, action) => {
     switch(action.type){
+        case "ADD_IMAGE":
+            return newState( state, {articles: action.payload });
         case "EDIT_RECIPE": 
-            return newState( state, {articles: action.payload});
-
+            return newState( state, {articles: action.payload}); 
         case "SHOW_GENRE":
             return newState( state, {showGenres: true} );
         case "SHOW_RECIPE":
@@ -52,8 +54,7 @@ const rootReducer = (state = initialState, action) => {
             return newState( state, {username: ""} )
         case LOG_IN:
             return {articles: action.payload, username: action.username} 
-        case ADD_GENRE: 
-            console.log("state of current app called in ADD_GENRE of index.js")
+        case ADD_GENRE:  
             console.log(state)  
             return newState( state , {articles: [ ...state.articles, { genre: action.payload, recipes: [] }  ]})
 
@@ -61,7 +62,7 @@ const rootReducer = (state = initialState, action) => {
             const updatedArticleList = state.articles.map( article => {
                 if( article.genre === action.genre ){ 
                     return { genre: article.genre, recipes: [...article.recipes, 
-                        {title: action.title, ingredients: [], steps: [] }] 
+                        {title: action.title, ingredients: [], steps: [], image: "" }] 
                         }
                     }
                 return article
@@ -78,7 +79,7 @@ const rootReducer = (state = initialState, action) => {
                             console.log('new ingredienst is ', ingredients)
                             return { title: recipe.title,
                             ingredients: [...recipe.ingredients, action.ingredientTitle],
-                        steps: recipe.steps}
+                        steps: recipe.steps, image: recipe.image}
                         }
                         return recipe
                     } )
@@ -87,7 +88,7 @@ const rootReducer = (state = initialState, action) => {
                 }
                 return article
             } ) 
-            return newState(state,{articles: updatedIngredientList})
+            return newState(state, {articles: updatedIngredientList})
 
         case ADD_STEP:
             const updatedStepList = state.articles.map( (article, index) => {
@@ -96,7 +97,7 @@ const rootReducer = (state = initialState, action) => {
                         if ( recipe.title === action.recipeTitle ){ 
                             return { title: recipe.title,
                             ingredients: [...recipe.ingredients],
-                        steps: [...recipe.steps, action.stepTitle ]}
+                        steps: [...recipe.steps, action.stepTitle ], image: recipe.image}
                         }
                         return recipe;
                     } )
@@ -132,7 +133,7 @@ const rootReducer = (state = initialState, action) => {
                         if (recipe.title === action.recipeTitle){
                             const newIngredients = recipe.ingredients.filter( ingredient => { return ingredient !== action.ingredientTitle } )
                             
-                            return {title: recipe.title, ingredients: newIngredients, steps: recipe.steps}
+                            return {title: recipe.title, ingredients: newIngredients, steps: recipe.steps, image: recipe.image}
                         }
                         return recipe
                     } ) 
@@ -152,7 +153,7 @@ const rootReducer = (state = initialState, action) => {
                         if (recipe.title === action.recipeTitle){
                             const newSteps = recipe.steps.filter( step => { return step !== action.stepTitle } )
                             
-                            return {title: recipe.title, ingredients: recipe.ingredients, steps: newSteps}
+                            return {title: recipe.title, ingredients: recipe.ingredients, steps: newSteps, image: recipe.image}
                         }
                         return recipe
                     } ) 

@@ -29,7 +29,7 @@ class GenreList extends Component {
         
     } 
     render(){ 
-        const { showGenres, articles, genreIndex } = this.props;   
+        const { showGenres, articles } = this.props;   
         const genres = articles.map( article => { return article.genre } );
         return(
         <div className="genreRecipeDisplay">

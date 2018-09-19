@@ -1,12 +1,9 @@
 
 import React from 'react';
-import Button from '@material-ui/core/Button';
-import Menu from '@material-ui/core/Menu';
+ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import IconButton from '@material-ui/core/IconButton';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import PropTypes from 'prop-types';
-
+import MoreVertIcon from '@material-ui/icons/MoreVert'; 
 
 // the issue could also be because of the form data object. 
 
@@ -15,19 +12,11 @@ class SimpleMenu extends React.Component {
     anchorEl: null,
   }; 
 
-  upload = async fileToUpload => {
-
-    // what is formdata object? What is blob object? 
-    // form data is a object that allows you to work with multer. I believe that it's unique to react.
-
+  upload = async fileToUpload => { 
     let form = new FormData();
 
     form.append("file", fileToUpload);
-
-    // Form data is used in order to use ajax. When communicating to the backend server
-    // we need it in a form that the backend can parse, or more specifically the multer
-    // backend 
-
+ 
     const response = await fetch("/upload", {
       method: "POST", 
       body: form
@@ -111,8 +100,5 @@ class SimpleMenu extends React.Component {
     );
   }
 }
-
-SimpleMenu.propTypes  = { 
-    handleDelete: PropTypes.func.isRequired
-}
+ 
 export default SimpleMenu;

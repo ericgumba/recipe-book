@@ -1,14 +1,10 @@
     import React, { Component } from "react"; 
     import "./App.css";
-    import GenreList from "./containers/GenreList";
-    import LoginModal from "./components/LoginModal";
+    import GenreList from "./containers/GenreList"; 
     import RecipeCardMenu from "./components/RecipeCardMenu";
     import Header from "./components/Header";
-    // import GenreButtons from "./components/GenreButtons";
-    import { request } from 'https'; 
-    const mapStateToProps = (state) => {  // takes application state as argument
-      return { articles: state.articles } // of type array of objects
-  } 
+    // import GenreButtons from "./components/GenreButtons"; 
+  
    
 
     class App extends Component {

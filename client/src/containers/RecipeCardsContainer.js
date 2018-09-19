@@ -1,27 +1,17 @@
  // Container for GenreButtons and 
 
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import GenreButtons from "../components/GenreButtons"; 
-import RecipeCard from "../components/RecipeCard";
+import { connect } from 'react-redux'; 
 import Recipe from "./Recipe";
 import PropTypes from 'prop-types';
 import { login, logout, showGenre, showRecipe } from "../actions/index"
 // Container for recipeCard
 
 // Todo: implement edit mode
-
-const flex = {
-    display: "flex",
-    // flexdirection: "row"
-};
+ 
 
 class RecipeCardsContainer extends Component {
-
-    constructor(){
-        super()
  
-    }
 
     handleEditButton(){
         this.setState({editMode: !this.state.editMode})
@@ -63,6 +53,7 @@ const mapDispatchToProps = (dispatch) => { // accepts redux's dispatch function.
         logout: () => { return dispatch(logout()) },
         showGenre: () => {return dispatch(showGenre() )},
         showRecipe: genreIndex => { return dispatch( showRecipe(genreIndex)) }
+
     }
 };
 export default connect(mapStateToProps, mapDispatchToProps)(RecipeCardsContainer);

@@ -1,9 +1,9 @@
-import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add'; 
 import React, {Component} from 'react';
-
+import { login, logout, showGenre, showRecipe, removeRecipe, addImage } from "../actions/index";
+import { connect } from 'react-redux';
 
 // recipeCardsContainer -> recipe -> editCard -> multilineeditcard
 class EditField extends Component{
@@ -18,9 +18,13 @@ class EditField extends Component{
 
     handleChange(e){
         console.log(e.target.value);
-        this.props.handleIngredientEdit(this.props.index,e.target.value);
-        this.setState({text: e.target.value});
-        
+        this.props.handleIngredientEdit(this.props.index, e.target.value);
+        this.setState({text: e.target.value}); 
+    }
+
+    handleDelete = () => {
+
+        this.props.handleDeleteIngredient(this.props.index);
     }
 
     render(){
@@ -35,7 +39,7 @@ class EditField extends Component{
                 onChange={this.handleChange.bind(this)}
                 margin="normal"
                 />  
-                <Button size='small' variant="fab" color="primary" aria-label="add" type='submit'>
+                <Button size='small' variant="fab" color="primary" aria-label="add" type='submit' onClick={ this.handleDelete  }>
                     <AddIcon />
                 </Button>
             
@@ -44,6 +48,24 @@ class EditField extends Component{
     }
 }  
  
-
-export default EditField;
  
+ 
+ const mapStateToProps = (state) => {
+     return { 
+         articles: state.articles,
+         username: state.username,
+         showGenre: state.showGenre 
+     }
+ }
+ 
+ const mapDispatchToProps = (dispatch) => { // accepts redux's dispatch function.
+     return{
+         login: recipeBook => { return dispatch(login(recipeBook)) },
+         logout: () => { return dispatch(logout()) },
+         showGenre: () => {return dispatch(showGenre() )},
+         showRecipe: genreIndex => { return dispatch( showRecipe(genreIndex)) },
+         removeRecipe: ({genreTitle, recipeTitle}) => { return dispatch( removeRecipe({ genreTitle, recipeTitle}))},
+         addImage: image => {return dispatch(addImage(image))} 
+     }
+ };
+ export default connect(mapStateToProps, mapDispatchToProps)(EditField);
