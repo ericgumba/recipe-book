@@ -81,7 +81,10 @@ app.post("/upload", cpUpload, (req, res, next) => {
     console.log(req.file.path); 
 
     const host = req.hostname;
-    const filePath = req.protocol + "://" + host + ':5000/' + req.file.filename; // IMPORTANT, WE GET RID OF 5000 AFTER UPDATE.
+    let filePath = req.protocol + "://" + host + '/' + req.file.filename; // IMPORTANT, WE GET RID OF 5000 AFTER UPDATE.
+    if (process.env.PORT){
+        filePath = req.protocol + "://" + host + req.file.filename
+    }
     console.log(host);
     console.log("file path es");
     console.log(filePath);
