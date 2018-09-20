@@ -7,42 +7,17 @@
   
    
 
-    class App extends Component {
-
+    class App extends Component { 
       constructor(){
         super();
         this.state = {showGenres: true};
       }
 
-      // componentDidMount(){
-      //   this.callAPI().then( res => { 
-      //     this.setState({message: res.username}) 
-      //   } ).catch( err => console.log(err))
-      // }
-
-      // async callAPI() {  
-      //   const data = {username: 'okmanl', recipeBook: newRecipe}
-      //   const response = await fetch("/updatebook", {
-      //     method: "POST",
-      //     headers: { "Content-Type": "application/json" },
-      //     body: JSON.stringify(data)
-      //   }) 
-
-      //   console.log(response)
-      //   const body =  await response.json()
-
-      //   console.log(body)
-
-      //   return body
-      // } 
- 
-      render() {
-
+      render() { 
         const {message} = this.state;
         return (
-          <div className="App" style={{backgroundColor:"#D3D3D3"}}> 
-            <Header/> 
-            <RecipeCardMenu/>
+          <div className="App"> 
+            <Header/>  
             <GenreList showGenres={this.state.showGenres} /> 
             {message}
           </div>

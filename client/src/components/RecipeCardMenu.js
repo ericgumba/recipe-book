@@ -12,7 +12,11 @@ class SimpleMenu extends React.Component {
     anchorEl: null,
   }; 
 
-  upload = async fileToUpload => { 
+  upload = async fileToUpload => {
+
+    // what is formdata object? What is blob object? 
+    // form data is a object that allows you to work with multer. I believe that it's unique to react.
+
     let form = new FormData();
 
     form.append("file", fileToUpload);
