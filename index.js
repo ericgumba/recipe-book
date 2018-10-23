@@ -7,14 +7,8 @@ const User = mongoose.model('User');
 const bodyParser = require('body-parser');
 const multer = require("multer");
 const fs = require("fs");
-
-// multer accepts options object, wghich allows one to 
-const upload = multer({dest: "uploads/"});
-
-// the upload needs to be the same exact name as the key value in form data
-// also the reason why it needs to be formdata is probably because multer 
-// needed to parse the file hence why the html
-// formdata.append("file", fileObject) === <input name="file">
+ 
+const upload = multer({dest: "uploads/"});  
 const cpUpload = upload.single("file");
 
 
@@ -30,9 +24,7 @@ const urlEncodedParser = bodyParser.urlencoded({extended: false});
 
 handleError = (err) => { 
     console.log("Wow, what happened?"); 
-}
-
-// plan, add the img property to user. Figure out how to use middleware
+} 
 
 app.get('/identity', (req, res) => {
     console.log("IDENTITY");
@@ -64,18 +56,7 @@ app.get('/identity', (req, res) => {
         }
     })
 
-})
- 
-
-// what middleware does is parse the request, and then attach fields to that request. For example jsonParser will contain req.body,
-// multer will have req.file. 
-
-
-// an interesting note is that when you send a response, it must be in the form of an object literal
-// what is middleware? req.file is undefined which could mean that 
-// how to get file path multer
-
-// goal, collect username under req.body, perhaps using form upload?
+})  
 app.post("/upload", cpUpload, (req, res, next) => {
     console.log("app.post /upload");
     console.log(req.file.path); 
@@ -90,9 +71,7 @@ app.post("/upload", cpUpload, (req, res, next) => {
     console.log(filePath);
     res.send({msg:filePath});
 
-});
-
-// try just calling updateBook for now
+}); 
 app.post("savephoto", jsonParser, (req, res) => { 
 
 })
@@ -118,40 +97,17 @@ app.post('/login', jsonParser, (req, res) => {
 
 })
 
-app.post('/updatebook', jsonParser, (req, res) => {
-    // This approach involves first retrieving the document from Mongo, then issuing an update command (triggered by calling save). However, if we don't need the document returned in our application and merely want to update a property in the database directly, Model#update is right for us:
+app.post('/updatebook', jsonParser, (req, res) => {  
 
-    // console.log("WOW?!")
-    // const newRecipe = 
-    // [  
-    //     {              
-    //         genre: 'entrees', 
-    //         recipes: 
-    //         [
-    //             { 
-    //                 title: 'Oven-Roasted Garlic Chicken', 
-    //                 ingredients: ['Chicken', 'garlic'], 
-    //                 steps: ['Stick in oven', 'wait 30 minutes ']
-    //             } 
-    //         ]
-    //     }
-    // ] 
-
-    console.log(req.body)
-
-    User.findOne({username: req.body.username}, (err, user) => {
-        console.log("Updatebook was called")
-        if (err){
-            console.log("ERROR at updatebook, ")    
+    User.findOne({username: req.body.username}, (err, user) => { 
+        if (err){ 
             res.send({no: "dice"})
         } else {
 
             user.set({recipeBook: req.body.recipeBook})
 
             user.save( (err, updatedUser) => {
-                if (err) {
-                    console.log("Error at user.save at app.post(/updatebook) ")
-                    console.log(err)
+                if (err) { 
                     res.send(err)
                 } else {
                     res.send(updatedUser)
@@ -161,8 +117,7 @@ app.post('/updatebook', jsonParser, (req, res) => {
     }) 
 })
 
-
-// TODO: Examine why this actually isn't being called in the SPA. TYPO, THAT'S THE REASON WHY
+ 
 app.post('/newuser', jsonParser, (req, res) => {
 
     console.log('/newuser was called')
@@ -181,8 +136,7 @@ app.post('/newuser', jsonParser, (req, res) => {
                 }
             ]
         }
-    ]; 
-    // when creating, do we have to do username.type?
+    ];  
     User.create({username: req.body.username, password: req.body.password, recipeBook}, (err, doc) => {
         if(err){
             console.log('error found in /newuser');
